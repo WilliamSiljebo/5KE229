@@ -1,0 +1,1432 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Vattenverket 5KE229</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&family=B612+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: kontrollrum — processchema och regulatorpanel överst, skrivarremsa under, protokoll längst ned. */
+:root {
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --surface-2: #e8edeb;
+  --fg: #16201d;
+  --fg-2: #4a5753;
+  --fg-3: #74827d;
+  --line: #cfd8d4;
+  --accent: #0f6e68;
+  --accent-ink: #ffffff;
+  --water: #d6e9ec;
+  --water-deep: #a9cfd6;
+  --paper: #fbfdf8;
+  --grid-minor: #dcebd9;
+  --grid-major: #b5d3b0;
+  --pen-pv: #2a78d6;
+  --pen-u: #eb6834;
+  --pen-sp: #52514e;
+  --pen-std: #1baf7a;
+  --crit: #d03b3b;
+  --good: #0a7d0a;
+  --warn: #a86b00;
+  --panel: #1f2a27;
+  --panel-fg: #e6efe9;
+  --led: #7cf0a8;
+  --font-display: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "B612 Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111715; --surface: #18201d; --surface-2: #212b28; --fg: #e7eeeb; --fg-2: #aebbb6; --fg-3: #82918b;
+    --line: #2f3b37; --accent: #3fb3a8; --accent-ink: #06201d; --water: #1d3439; --water-deep: #26505a;
+    --paper: #151c19; --grid-minor: #1f2e24; --grid-major: #2f4a35; --pen-pv: #5aa2f0; --pen-u: #e9774a;
+    --pen-sp: #c3c2b7; --pen-std: #2bc48c; --crit: #e66767; --good: #3dbb4a; --warn: #e0a326;
+    --panel: #0b100e; --panel-fg: #dfe9e3; --led: #7cf0a8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111715; --surface: #18201d; --surface-2: #212b28; --fg: #e7eeeb; --fg-2: #aebbb6; --fg-3: #82918b;
+  --line: #2f3b37; --accent: #3fb3a8; --accent-ink: #06201d; --water: #1d3439; --water-deep: #26505a;
+  --paper: #151c19; --grid-minor: #1f2e24; --grid-major: #2f4a35; --pen-pv: #5aa2f0; --pen-u: #e9774a;
+  --pen-sp: #c3c2b7; --pen-std: #2bc48c; --crit: #e66767; --good: #3dbb4a; --warn: #e0a326;
+  --panel: #0b100e; --panel-fg: #dfe9e3; --led: #7cf0a8; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: .01em; }
+h2 { font-size: 1.3rem; font-weight: 600; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-display); font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3); font-weight: 600; }
+.muted { color: var(--fg-2); }
+.small { font-size: .85rem; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between; margin-bottom: 14px; }
+header.top .lead { max-width: 70ch; display: grid; gap: 6px; }
+nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; }
+nav.tabs button { font-family: var(--font-display); font-size: 1rem; font-weight: 600; background: none; border: 0; padding: 10px 14px; color: var(--fg-2); border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+nav.tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+nav.tabs button:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.grid { display: grid; gap: 16px; }
+.grid { grid-template-columns: minmax(0, 1fr); }
+.g-top { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
+.g-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.g-12 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); }
+@media (max-width: 900px) { .g-top, .g-2, .g-12 { grid-template-columns: minmax(0, 1fr); } }
+.card { grid-template-columns: minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.card > header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
+button.btn { font-family: var(--font-body); font-weight: 600; font-size: .92rem; border-radius: 4px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg); padding: 7px 12px; cursor: pointer; }
+button.btn:hover { border-color: var(--fg-3); }
+button.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button.btn.danger { background: transparent; border-color: var(--crit); color: var(--crit); }
+button.btn:disabled { opacity: .5; cursor: not-allowed; }
+input[type="number"], input[type="text"], select { font: inherit; font-family: var(--font-mono); font-size: .9rem; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 5px 7px; min-width: 0; }
+input[type="text"].note { font-family: var(--font-body); }
+label.f { display: grid; gap: 3px; font-size: .8rem; color: var(--fg-2); font-weight: 500; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+/* simulatorlist */
+.simbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; margin-bottom: 16px; }
+.clock { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700; letter-spacing: .02em; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.seg button { border: 0; background: var(--surface); color: var(--fg-2); padding: 6px 10px; font-family: var(--font-mono); font-size: .82rem; cursor: pointer; border-right: 1px solid var(--line); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.spacer { flex: 1; }
+/* processchema */
+.schema svg { width: 100%; height: auto; display: block; }
+.schema text { font-family: var(--font-body); fill: var(--fg-2); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { border-top: 2px solid var(--line); padding-top: 6px; display: grid; gap: 2px; }
+.kpi .v { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.kpi .u { font-size: .78rem; color: var(--fg-3); }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: .75rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.chip.good { color: var(--good); } .chip.warn { color: var(--warn); } .chip.crit { color: var(--crit); }
+/* regulator */
+.ctrl { background: var(--panel); color: var(--panel-fg); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.ctrl .eyebrow { color: #9fb3aa; }
+.ctrl .disp { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.ctrl .disp div { background: #050806; border-radius: 4px; padding: 8px 10px; border: 1px solid #2a3833; }
+.ctrl .disp b { display: block; font-family: var(--font-display); font-size: .72rem; letter-spacing: .1em; color: #8fa59b; font-weight: 600; }
+.ctrl .disp span { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--led); font-variant-numeric: tabular-nums; }
+.ctrl .disp .out span { color: #ffb37a; }
+.ctrl .params { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+.ctrl label.f { color: #b5c8bf; }
+.ctrl input[type="number"], .ctrl select { background: #0d1311; color: var(--panel-fg); border-color: #34443e; }
+.ctrl .btn { background: #2b3934; color: var(--panel-fg); border-color: #3d4f48; }
+.ctrl .btn.primary { background: var(--led); color: #06200f; border-color: var(--led); }
+.ctrl .hint { font-size: .8rem; color: #a8bab2; }
+.ctrl .mode { display: inline-flex; border: 1px solid #3d4f48; border-radius: 4px; overflow: hidden; }
+.ctrl .mode button { background: transparent; color: #b5c8bf; border: 0; padding: 5px 10px; font-family: var(--font-mono); cursor: pointer; }
+.ctrl .mode button[aria-pressed="true"] { background: #b5c8bf; color: #0b100e; }
+.ctrl input[type="range"] { width: 100%; accent-color: #ffb37a; }
+/* skrivare */
+.rec { display: grid; gap: 6px; }
+.rec canvas { width: 100%; display: block; background: var(--paper); border: 1px solid var(--line); border-radius: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .82rem; color: var(--fg-2); }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+.chartwrap { position: relative; width: 100%; min-width: 0; max-width: 100%; overflow: hidden; contain: inline-size; }
+.chartwrap canvas { max-width: 100%; min-width: 0; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 9px; font-size: .8rem; box-shadow: 0 2px 8px rgba(0,0,0,.12); white-space: nowrap; z-index: 3; }
+.tip .mono { font-size: .8rem; }
+.startnote { position: absolute; inset: 30px 30px 150px 50px; display: grid; place-content: center; justify-items: center; gap: 10px; text-align: center; color: var(--fg-2); font-weight: 500; pointer-events: none; }
+.startnote button { pointer-events: auto; }
+#runChip { color: var(--fg-3); }
+#runChip.on { color: var(--good); }
+#runChip.paused { color: var(--warn); }
+/* tabeller */
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-display); font-weight: 600; font-size: .8rem; letter-spacing: .04em; color: var(--fg-2); white-space: nowrap; }
+td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+td input[type="text"] { width: 100%; min-width: 70px; }
+tr.cur td { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.auto { display: block; font-family: var(--font-mono); font-size: .76rem; color: var(--accent); }
+/* fia */
+.rack { display: grid; gap: 6px; max-height: 360px; overflow: auto; }
+.vial { display: grid; grid-template-columns: 14px minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; background: var(--surface); text-align: left; color: var(--fg); font: inherit; }
+.vial[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.vial .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--fg-3); }
+.vial small { color: var(--fg-3); font-family: var(--font-mono); }
+.prose { display: grid; gap: 10px; max-width: 72ch; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.eq { font-family: var(--font-mono); background: var(--surface-2); border-radius: 4px; padding: 8px 10px; font-size: .9rem; overflow-x: auto; }
+.callout { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; }
+details summary { cursor: pointer; font-weight: 600; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--panel); color: var(--panel-fg); padding: 8px 14px; border-radius: 4px; font-size: .9rem; z-index: 20; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="lead">
+      <span class="eyebrow">5KE229 Processanalytisk teknologi · Simuleringslaboration</span>
+      <h1>Vattenverket: pH-reglerad fosfatfällning</h1>
+      <p class="muted">Simulerat reningsverk där fosfat fälls med aluminiumsulfat. Ni ställer in PID-regulatorn som doserar natronlut, utsätter processen för sura pH-chocker och bestämmer ortofosfat i in- och utflöde med FIA. Allt bygger på labbinstruktionen <em>Waste water treatment</em>.</p>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Delar av laborationen">
+    <button role="tab" id="tab-verk" aria-controls="verk" aria-selected="true">3.1 Vattenverket</button>
+    <button role="tab" id="tab-fia" aria-controls="fia" aria-selected="false">3.2 FIA – ortofosfat</button>
+    <button role="tab" id="tab-teori" aria-controls="teori" aria-selected="false">Teori och förberedelse</button>
+    <button role="tab" id="tab-redov" aria-controls="redov" aria-selected="false">Redovisning</button>
+    <button role="tab" id="tab-modell" aria-controls="modell" aria-selected="false">Om modellen</button>
+  </nav>
+
+  <div class="simbar" aria-label="Simuleringskontroll">
+    <div><span class="eyebrow">Processtid</span><div class="clock" id="clock">00:00:00</div></div>
+    <button class="btn primary" id="playBtn" aria-pressed="false">▶ Starta simuleringen</button>
+    <span class="chip" id="runChip">Stoppad</span>
+    <div class="row"><span class="small muted">Hastighet</span>
+      <div class="seg" id="speedSeg">
+        <button data-s="1">1×</button><button data-s="10">10×</button><button data-s="30" aria-pressed="true">30×</button><button data-s="60">60×</button><button data-s="120">120×</button>
+      </div>
+    </div>
+    <span class="small muted" id="speedNote">30 min processtid ≈ 1 min</span>
+    <span class="spacer"></span>
+    <button class="btn danger" id="resetBtn">Starta om verket</button>
+  </div>
+  <div id="resetConfirm" class="simbar" hidden>
+    <span>Starta om? Skrivarremsa, protokoll och FIA-prover töms.</span>
+    <button class="btn danger" id="resetYes">Ja, starta om</button>
+    <button class="btn" id="resetNo">Avbryt</button>
+  </div>
+
+  <!-- ================= VATTENVERKET ================= -->
+  <section id="verk" role="tabpanel" aria-labelledby="tab-verk" class="grid">
+    <div class="grid g-top">
+      <div class="card schema">
+        <header><h2>Processchema</h2><span class="small muted">Flöde ≈ 1 L/min · bassäng A → E</span></header>
+        <svg viewBox="0 0 680 370" role="img" aria-label="Reningsverk med bassängerna A till E och doseringspunkter">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--fg-3)"/></marker>
+          </defs>
+          <!-- doseringskärl -->
+          <g id="dosers"></g>
+          <g id="pools"></g>
+        </svg>
+        <div class="kpis">
+          <div class="kpi"><span class="eyebrow">pH vid elektrod (C)</span><span class="v" id="kpiPH">–</span><span id="kpiPHchip"></span></div>
+          <div class="kpi"><span class="eyebrow">NaOH-tillsats</span><span class="v" id="kpiNaOH">–</span><span class="u">ml/min, 2 M</span></div>
+          <div class="kpi"><span class="eyebrow">Fosfor ut (E)</span><span class="v" id="kpiPout">dold</span><span class="u" id="kpiPoutU">mät med FIA</span></div>
+          <div class="kpi"><span class="eyebrow">Löst Al i C</span><span class="v" id="kpiAl">–</span><span class="u">µg/L</span></div>
+        </div>
+      </div>
+
+      <div class="ctrl" aria-label="PID-regulator">
+        <div class="row" style="justify-content:space-between">
+          <span class="eyebrow">pH-regulator · bassäng C</span>
+          <div class="mode" role="group" aria-label="Driftläge">
+            <button id="modeAuto" aria-pressed="true">AUTO</button><button id="modeMan" aria-pressed="false">MAN</button>
+          </div>
+        </div>
+        <div class="disp">
+          <div><b>ÄR-VÄRDE</b><span id="dPV">–</span></div>
+          <div><b>BÖR-VÄRDE</b><span id="dSP">7.00</span></div>
+          <div class="out"><b>UTSIGNAL %</b><span id="dU">–</span></div>
+        </div>
+        <div id="manBox" hidden>
+          <label class="f" for="manU">Manuell pumpeffekt: <span id="manUv" class="mono">0</span> %</label>
+          <input type="range" id="manU" min="0" max="100" step="1" value="0">
+        </div>
+        <label class="f" for="preset">Inställning från labbinstruktionen
+          <select id="preset"></select>
+        </label>
+        <div class="params">
+          <label class="f" for="pP">P (%)<input type="number" id="pP" min="1" max="500" step="1" value="15"></label>
+          <label class="f" for="pI">I (s)<input type="number" id="pI" min="0" max="5000" step="10" value="0"></label>
+          <label class="f" for="pD">D (s)<input type="number" id="pD" min="0" max="1000" step="5" value="0"></label>
+          <label class="f" for="pARW">ARW (%)<input type="number" id="pARW" min="0" max="100" step="1" value="0"></label>
+        </div>
+        <div class="params">
+          <label class="f" for="pSP">BÖR (pH)<input type="number" id="pSP" min="4" max="10" step="0.1" value="7.0"></label>
+          <label class="f" for="pBias">Bias (%)<input type="number" id="pBias" min="0" max="100" step="1" value="0"></label>
+          <div style="grid-column: span 2; display:flex; align-items:end; gap:8px; flex-wrap:wrap">
+            <button class="btn primary" id="applyBtn">Tillämpa inställning</button>
+          </div>
+        </div>
+        <p class="hint">P anges som proportionalband: förstärkningen är K = 100/P. I = 0 eller D = 0 stänger av den delen. ARW = 0 betyder ingen anti-windup.</p>
+      </div>
+    </div>
+
+    <div class="card rec">
+      <header>
+        <div><h2>Skrivarremsa</h2><p class="small muted">Läs av ÄR-värdet med jämna mellanrum. Håll muspekaren över remsan för att läsa exakta värden.</p></div>
+        <div class="row">
+          <div class="seg" id="winSeg" aria-label="Tidsfönster"><button data-w="10">10 min</button><button data-w="30" aria-pressed="true">30 min</button><button data-w="60">60 min</button><button data-w="120">2 h</button></div>
+          <button class="btn" id="followBtn" aria-pressed="true">Följer nu</button>
+        </div>
+      </header>
+      <div class="legend">
+        <span><i style="border-color:var(--pen-pv)"></i>ÄR-värde, pH</span>
+        <span><i style="border-color:var(--pen-sp);border-top-style:dashed"></i>BÖR-värde</span>
+        <span><i style="border-color:var(--pen-u)"></i>Utsignal till NaOH-pump, %</span>
+        <span><i style="border-color:var(--crit)"></i>HCl-tillsats</span>
+      </div>
+      <div class="chartwrap" id="recWrap">
+        <canvas id="cPH" height="260" aria-label="pH över tid"></canvas>
+        <canvas id="cU" height="120" aria-label="Utsignal över tid" style="margin-top:6px"></canvas>
+        <div class="tip" id="recTip" hidden></div>
+        <div class="startnote" id="startNote"><p>Processtiden står still.</p><button class="btn primary" id="startNoteBtn">▶ Starta simuleringen</button></div>
+      </div>
+      <input type="range" id="scroll" min="0" max="0" value="0" step="1" aria-label="Bläddra bakåt i tiden">
+    </div>
+
+    <div class="grid g-12">
+      <div class="card">
+        <header><h2>Störningar och dosering</h2></header>
+        <div class="row">
+          <button class="btn danger" id="hclBtn">Tillsätt 10 ml HCl i bassäng C</button>
+          <span class="small muted">1:10 av konc. HCl ≈ 1,2 M → 12 mmol H⁺</span>
+        </div>
+        <div class="grid g-2" style="gap:10px">
+          <label class="f" for="alRate">Aluminiumsulfat 0,1 M (ml/min)<input type="number" id="alRate" min="0" max="30" step="1" value="10"></label>
+          <label class="f" for="polyRate">Polyelektrolyt (ml/min)<input type="number" id="polyRate" min="0" max="10" step="1" value="6"></label>
+          <label class="f" for="alk">Inflödets alkalinitet (% av normalt)<input type="number" id="alk" min="20" max="200" step="5" value="100"></label>
+          <label class="f" for="noise">Brus i pH-signalen (pH-enheter)<input type="number" id="noise" min="0" max="0.2" step="0.005" value="0.015"></label>
+        </div>
+        <details>
+          <summary>Fler utmaningar</summary>
+          <div class="grid" style="gap:8px;margin-top:8px">
+            <label class="f" for="drift">Elektroddrift (pH per timme)<input type="number" id="drift" min="-1" max="1" step="0.05" value="0"></label>
+            <p class="small muted">En elektrod som driver visar fel pH. Regulatorn håller då ÄR-värdet på BÖR-värdet medan det verkliga pH-värdet i bassängen glider iväg. Kontrollera elektroden med en buffert för att upptäcka det.</p>
+            <div class="row"><button class="btn" id="bufBtn">Kontrollmät elektroden i pH 7,00-buffert</button><span class="mono small" id="bufRes"></span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <header><h2>Mätprotokoll</h2>
+          <label class="row small"><input type="checkbox" id="showAuto"> Visa uppmätta värden</label>
+        </header>
+        <p class="small muted">En rad skapas varje gång ni tillämpar en inställning. Läs av remsan och fyll i själva. Kryssa i rutan ovan när ni vill jämföra med simulatorns uppmätta värden.</p>
+        <div class="tablewrap">
+          <table id="logTable">
+            <thead><tr><th>#</th><th>Start</th><th>P / I / D / ARW</th><th>ÄR − BÖR</th><th>Insvängning (min)</th><th>Lägsta pH (HCl)</th><th>Stabil igen (min)</th><th>Kommentar</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="row"><button class="btn" id="copyLog">Kopiera protokoll</button><button class="btn" id="copyData">Kopiera mätdata (tab-separerad)</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FIA ================= -->
+  <section id="fia" role="tabpanel" aria-labelledby="tab-fia" class="grid" hidden>
+    <div class="grid g-top">
+      <div class="card">
+        <header><h2>Fiagram, 880 nm</h2><span class="small muted">Provslinga 50 µl · bärare H₂SO₄ · reagens 1 molybdat/Sb · reagens 2 askorbinsyra</span></header>
+        <div class="chartwrap"><canvas id="cFIA" height="240" style="width:100%;display:block;background:var(--paper);border:1px solid var(--line);border-radius:3px"></canvas></div>
+        <div class="row">
+          <span class="small" id="selInfo">Välj ett prov i provstället.</span>
+          <span class="spacer"></span>
+          <label class="f" for="dil">Spädning<select id="dil"><option value="1">ospätt</option><option value="2">1 + 1 (×2)</option><option value="5">1 + 4 (×5)</option><option value="10">1 + 9 (×10)</option><option value="20">1 + 19 (×20)</option></select></label>
+          <label class="f" for="reps">Replikat<select id="reps"><option>1</option><option selected>2</option><option>3</option></select></label>
+          <button class="btn primary" id="injBtn" disabled>Injicera</button>
+        </div>
+      </div>
+      <div class="card">
+        <header><h2>Provställ</h2></header>
+        <div class="rack" id="rack"></div>
+        <div class="grid" style="gap:8px">
+          <h3>Ta prov från verket</h3>
+          <div class="row"><button class="btn" id="sampIn">Prov från inflödet</button><button class="btn" id="sampOut">Prov från utflödet (E)</button></div>
+          <p class="small muted">Provet speglar verket vid den processtid då det tas. Utflödet påverkas av vad som hände i bassäng C under de senaste ~15 minuterna.</p>
+        </div>
+        <details>
+          <summary>Bered egen standard</summary>
+          <div class="grid" style="gap:8px;margin-top:8px">
+            <div class="row">
+              <label class="f" for="stdVol">Pipettera (ml)<input type="number" id="stdVol" min="0.1" max="500" step="0.1" value="10" style="width:90px"></label>
+              <label class="f" for="stdSrc">av<select id="stdSrc"><option value="50">stamlösning 50 mg/L P</option><option value="1">standard 1 mg/L P</option></select></label>
+              <label class="f" for="stdFlask">till mätkolv (ml)<select id="stdFlask"><option>100</option><option>250</option><option>500</option><option selected>1000</option></select></label>
+            </div>
+            <div class="row"><button class="btn" id="mkStd">Bered och ställ i provstället</button><span class="small muted mono" id="stdPreview"></span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="grid g-2">
+      <div class="card">
+        <header><h2>Standardkurva</h2><label class="row small"><input type="checkbox" id="showConc"> Visa beräknade halter</label></header>
+        <div class="chartwrap" id="calWrap"><canvas id="cCal" height="280" style="width:100%;display:block"></canvas><div class="tip" id="calTip" hidden></div></div>
+        <p class="mono small" id="fitTxt">Injicera minst två standarder för att få en kurva.</p>
+        <p class="small muted">Bocka av punkter i tabellen som inte ska ingå i anpassningen. Bedöm själva vilket område som är linjärt.</p>
+      </div>
+      <div class="card">
+        <header><h2>Injektioner</h2><button class="btn" id="copyFia">Kopiera tabell</button></header>
+        <div class="tablewrap" style="max-height:420px;overflow:auto">
+          <table id="fiaTable"><thead><tr><th>#</th><th>Prov</th><th class="num">Spädn.</th><th class="num">Topp A (880 nm)</th><th>Kalib.</th><th class="num conc">Halt (mg/L P)</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEORI ================= -->
+  <section id="teori" role="tabpanel" aria-labelledby="tab-teori" class="grid" hidden>
+    <div class="grid g-2">
+      <div class="card">
+        <header><h2>Aluminiums löslighet</h2><span class="small muted">jfr figur 2 i instruktionen</span></header>
+        <div class="chartwrap" id="solWrap"><canvas id="cSol" height="280" style="width:100%;display:block"></canvas><div class="tip" id="solTip" hidden></div></div>
+        <div class="legend"><span><i style="border-color:var(--pen-pv)"></i>Totalt löst Al</span><span><i style="border-color:var(--pen-u);border-top-style:dashed"></i>Al³⁺</span><span><i style="border-color:var(--pen-std);border-top-style:dotted"></i>Al(OH)₄⁻</span></div>
+        <p class="small muted">Beräknat med modellens jämviktskonstanter för Al(OH)₃(s) och hydrolysprodukterna. Var ligger minimum? Vad händer med löst Al om pH hamnar för högt?</p>
+      </div>
+      <div class="card">
+        <header><h2>Titrerkurva för bassäng C</h2><span class="small muted">vid aktuell dosering</span></header>
+        <div class="chartwrap" id="titWrap"><canvas id="cTit" height="280" style="width:100%;display:block"></canvas><div class="tip" id="titTip" hidden></div></div>
+        <p class="small muted">Jämvikts-pH som funktion av konstant pumpeffekt. Lutningen är processens förstärkning. Den är mycket större kring pH 7–9 än kring pH 4–5. Vad betyder det för regleringen? Ändra aluminium- eller alkalinitetsinställningen och se hur kurvan flyttar sig.</p>
+      </div>
+    </div>
+    <div class="grid g-2">
+      <div class="card prose">
+        <h2>Regulatorn i simuleringen</h2>
+        <p>Regulatorn arbetar med felet i procent av mätområdet (pH 0–14), E = (BÖR − ÄR)/14 · 100, och räknar ut en ny utsignal varje sekund.</p>
+        <div class="eq">U = bias + K·E + (K/T<sub>I</sub>)∫E dt − K·T<sub>D</sub>·d(ÄR)/dt,&nbsp;&nbsp; K = 100/P</div>
+        <ul>
+          <li><b>P</b> är proportionalbandet i %. Ett stort P ger låg förstärkning och därmed långsam reglering med stort kvarstående fel.</li>
+          <li><b>I</b> är integrationstiden T<sub>I</sub> i sekunder. Ett litet T<sub>I</sub> ger snabb integrering och risk för självsvängning.</li>
+          <li><b>D</b> är derivatatiden T<sub>D</sub> i sekunder. D-delen verkar på ÄR-värdet och är filtrerad, men förstärker ändå bruset i pH-signalen.</li>
+          <li><b>ARW</b> > 0 aktiverar anti-windup. Integreringen stoppas när pumpen går på 0 eller 100 % och när felet är större än ARW % av mätområdet. Med ARW = 0 fortsätter integralen att växa medan pumpen är mättad.</li>
+        </ul>
+      </div>
+      <div class="card prose">
+        <h2>Innan ni börjar</h2>
+        <p>Diskutera i gruppen och skriv ned era förutsägelser. Jämför sedan med vad ni ser i simuleringen.</p>
+        <ol>
+          <li>Identifiera variablerna: pH, fosfathalt ut och luttillsats. Vilken är <b>styrvariabel</b> och vilken är <b>mätvariabel</b>? Var finns ÄR-värdet och BÖR-värdet?</li>
+          <li>Förutsäg hur ÄR − BÖR skiljer sig mellan P = 15 och P = 70 med enbart P-reglering. Varför kan P-reglering inte ta bort felet i den här processen?</li>
+          <li>Vilken av de nio inställningarna tror ni klarar HCl-chocken bäst? Motivera med P-, I- och D-delarnas egenskaper.</li>
+          <li>pH mäts <b>in-line</b> och fosfat <b>at-line</b> med FIA. Vad innebär det för hur snabbt ni kan upptäcka att reningen försämras?</li>
+          <li>Utflödet passerar bassäng D och E innan det når provpunkten. Hur länge efter en störning bör ni vänta innan ni tar ett representativt prov?</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REDOVISNING ================= -->
+  <section id="redov" role="tabpanel" aria-labelledby="tab-redov" class="grid" hidden>
+    <div class="grid g-2">
+      <div class="card prose">
+        <h2>Uppgifter i vattenverket</h2>
+        <ol>
+          <li>Kör de nio inställningarna i tabellen. Låt varje inställning gå i cirka 30 minuter processtid. Tillsätt 10 ml HCl när regleringen har stabiliserats.</li>
+          <li>Anteckna för varje inställning hur mycket ÄR-värdet skiljer sig från BÖR-värdet, hur länge pH svänger innan det blir stabilt, lägsta pH efter HCl-tillsatsen och hur lång tid det tar innan pH är stabilt igen.</li>
+          <li>Ställ in minst tre egna inställningar genom att finjustera den bästa av de nio, utifrån kraven:
+            <ul>
+              <li><b>Krav 1.</b> ÄR-värdet ska nå BÖR-värdet inom rimlig tid och utan bestående reglerfel.</li>
+              <li><b>Krav 2.</b> pH ska inte sjunka alltför mycket vid tillsats av 10 ml HCl.</li>
+            </ul>
+          </li>
+        </ol>
+        <h2>Uppgifter med FIA</h2>
+        <ol>
+          <li>Ta upp en standardkurva för fosfat med minst två replikat per koncentration.</li>
+          <li>Ta 2–3 prover från inflödet och från utflödet och bestäm halten ortofosfat.</li>
+          <li>Om inflödesproverna ligger över standardkurvan: späd stamlösningen till en lämplig standard eller späd proverna. Om utflödesproverna ligger under kurvan: späd 1 mg/L-standarden på lämpligt sätt.</li>
+          <li>Beräkna verkets reningsgrad för fosfor och koppla den till hur väl pH hölls i bassäng C när proverna togs.</li>
+        </ol>
+      </div>
+      <div class="card prose">
+        <h2>Frågor i laborationsredogörelsen</h2>
+        <ol>
+          <li>Varför väljs börvärdet pH ≈ 7 när aluminiumsulfat används som koaguleringsmedel?</li>
+          <li>Om mängden aluminiumsulfat ökar i förhållande till mängden avloppsvatten, hur ändras då mängden fri aluminium i utflödet? Motivera. Testa gärna i simuleringen och se hur NaOH-behovet ändras.</li>
+          <li>Vad är karakteristiskt för P-, I- och D-delen?</li>
+          <li>Ge exempel på när P-, PI- och PID-reglering bör användas. Vad krävs för att reglera pH i avloppsvattnet?</li>
+          <li>Kommentera det bästa valet av parametrar.</li>
+        </ol>
+        <h2>Fördjupning med koppling till kursplanen</h2>
+        <ul>
+          <li>Jämför pH-elektroden (in-line, kontinuerlig) med FIA (at-line, satsvis). Vilka utmaningar finns med kalibrering och provtagning i en kontinuerlig process?</li>
+          <li>Hur skulle ni övervaka fosfat i realtid i ett fullskaleverk? Bedöm minst två tekniker med avseende på noggrannhet, tillförlitlighet, service och kostnad.</li>
+          <li>Väg kemikalieförbrukning (Al-sulfat, NaOH, polymer) mot reningsgrad. Vad är en hållbar driftpunkt?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OM MODELLEN ================= -->
+  <section id="modell" role="tabpanel" aria-labelledby="tab-modell" class="grid" hidden>
+    <div class="grid g-2">
+      <div class="card prose">
+        <h2>Vad simuleringen räknar på</h2>
+        <ul>
+          <li><b>Avloppsvatten</b> enligt instruktionen: 0,25 g/L NaHCO₃, 0,0875 g/L CH₃COOH och H₃PO₄ motsvarande cirka 6,5 mg/L P. Den exakta fosforhalten varierar några procent mellan omstarter. Flödet är 1 L/min.</li>
+          <li><b>Bassäng B</b> får 0,1 M Al₂(SO₄)₃ med 10 ml/min, vilket ger ungefär 2 mM Al.</li>
+          <li><b>Bassäng C</b> består av två omrörda delar på 1,5 L vardera. NaOH (2 M, högst 10 ml/min) och HCl tillsätts i den första delen, och elektroden sitter i den andra. pH beräknas ur laddningsbalansen med karbonat, acetat, fosfat, sulfat, Al(OH)₃(s), Al-hydrolysprodukter och laddade ytgrupper på flocken.</li>
+          <li><b>Mätkedjan</b> har 12 s dödtid i doseringsslangen, 10 s tidskonstant i elektroden och valbart brus och valbar drift.</li>
+          <li><b>Fosfatavskiljningen</b> är en empirisk funktion av pH i C (optimum runt pH 6,8), molförhållandet Al:P och polymerdosen. Bassäng D (3 L) och E (10 L) fördröjer utflödet.</li>
+          <li><b>FIA</b> svarar nästan linjärt upp till cirka 5 mg/L P och böjer av något vid högre halter. Toppvärdena har cirka 1 % slumpmässig variation.</li>
+        </ul>
+        <p class="small muted">Modellen är en förenkling. Siffrorna är rimliga men inte kalibrerade mot den verkliga laborationsutrustningen. Att granska modellens antaganden kritiskt är en del av uppgiften.</p>
+      </div>
+      <div class="card prose">
+        <h2>Tips för genomförandet</h2>
+        <ul>
+          <li>Använd 30× eller 60× för långa förlopp och 1× när ni vill se detaljer efter en HCl-tillsats.</li>
+          <li>Varje ny inställning loggas automatiskt med starttid i protokollet. Kopiera mätdata till ett kalkylblad om ni vill göra egna beräkningar.</li>
+          <li>Simuleringen fortsätter att gå medan ni arbetar med FIA. Ta utflödesprover när regleringen har varit stabil en stund, och anteckna vilken inställning som gällde.</li>
+          <li>Simuleringen och protokollet sparas inte när sidan stängs eller laddas om. Kopiera protokoll och mätdata till er rapport innan ni stänger.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+// ===== Processmodell: vattenreningsverk med pH-reglering (bassäng C) =====
+// Ren JS, ingen DOM. Används både i webbsidan och i node-tester.
+(function (root) {
+  const LOG10 = Math.log(10);
+  // Jämviktskonstanter (25 °C, I ≈ 0)
+  const K = {
+    w: 1e-14,
+    c1: 10 ** -6.35, c2: 10 ** -10.33,           // H2CO3*/HCO3-/CO3 2-
+    ac: 10 ** -4.76,                               // HAc
+    p1: 10 ** -2.15, p2: 10 ** -7.20, p3: 10 ** -12.35, // H3PO4
+    s1: 10 ** -7.8, s2: 10 ** -10.2,              // ytgrupper på Al(OH)3-flock (≡AlOH2+ / ≡AlOH / ≡AlO-), pzc ≈ 9
+    alS: 10 ** 9.0,                                // Al(OH)3(s) + 3H+ = Al3+ + 3H2O   (*Ks0)
+    al1: 10 ** -4.97, al2: 10 ** -9.3, al4: 10 ** -22.7, // Al3+ hydrolys (*β1, *β2, *β4)
+  };
+  // komponentindex
+  const SITE = 0.6; // mol ytgrupper per mol utfällt Al(OH)3
+  const NA = 0, CL = 1, SO4 = 2, CT = 3, AC = 4, PT = 5, AL = 6, NC = 7;
+
+  // Lösliga Al-species vid givet h (mol/L) och Al_tot (mol/L)
+  function alSpecies(h, AlT) {
+    const f = 1 + K.al1 / h + K.al2 / (h * h) + K.al4 / (h * h * h * h);
+    let al3 = K.alS * h * h * h;          // mättnad
+    if (al3 * f > AlT) al3 = AlT / f;      // allt löst
+    const a1 = al3 * K.al1 / h, a2 = al3 * K.al2 / (h * h), a4 = al3 * K.al4 / (h * h * h * h);
+    const diss = al3 + a1 + a2 + a4;
+    return { al3, a1, a2, a4, diss, solid: Math.max(0, AlT - diss),
+      charge: 3 * al3 + 2 * a1 + a2 - a4 };
+  }
+
+  // Laddningsbalans -> pH. c = koncentrationer i mmol/L
+  function solvePH(c) {
+    const m = c.map(x => x * 1e-3);
+    const bal = (pH) => {
+      const h = 10 ** -pH, oh = K.w / h;
+      const dC = h * h + h * K.c1 + K.c1 * K.c2;
+      const hco3 = m[CT] * h * K.c1 / dC, co3 = m[CT] * K.c1 * K.c2 / dC;
+      const ac = m[AC] * K.ac / (h + K.ac);
+      const dP = h * h * h + h * h * K.p1 + h * K.p1 * K.p2 + K.p1 * K.p2 * K.p3;
+      const pch = m[PT] * (h * h * K.p1 + 2 * h * K.p1 * K.p2 + 3 * K.p1 * K.p2 * K.p3) / dP;
+      const als = alSpecies(h, m[AL]);
+      const sT = SITE * als.solid, dS = h * h + h * K.s1 + K.s1 * K.s2;
+      const surf = sT * (h * h - K.s1 * K.s2) / dS;
+      return h + m[NA] + als.charge + surf - oh - hco3 - 2 * co3 - ac - pch - m[CL] - 2 * m[SO4];
+    };
+    let lo = 0, hi = 14; // bal minskar med pH
+    for (let i = 0; i < 46; i++) {
+      const mid = 0.5 * (lo + hi);
+      if (bal(mid) > 0) lo = mid; else hi = mid;
+    }
+    return 0.5 * (lo + hi);
+  }
+
+  // Molmassor
+  const MW = { NaHCO3: 84.007, HAc: 60.052, H3PO4: 97.994, P: 30.974, Al: 26.98 };
+
+  function defaultParams() {
+    return {
+      Qw: 1.0,          // L/min avloppsvatten
+      alRate: 10,       // ml/min 0,1 M Al2(SO4)3
+      polyRate: 6,      // ml/min polyelektrolyt (0,5 g/L)
+      naohMax: 10,      // ml/min vid 100 % pumpeffekt
+      naohConc: 2.0,    // mol/L
+      Pin: 6.5,         // mg/L P i inkommande vatten (ändras något per session)
+      alkFactor: 1.0,   // relativ alkalinitet i inflödet
+      VB: 3, VC1: 1.5, VC2: 1.5, VD: 3, VE: 10, // L
+      deadDose: 12,     // s, transport i doseringsslang
+      tauEl: 10,        // s, pH-elektrodens tidskonstant
+      noise: 0.015,     // pH-enheter, brus i mätsignalen
+      drift: 0,         // pH-enheter per timme, elektroddrift
+      hclConc: 1.2, hclVol: 10, // mol/L, ml
+    };
+  }
+
+  function feedOf(p) {
+    const qAl = p.alRate / 1000, Qt = p.Qw + qAl + p.polyRate / 1000;
+    const f = new Array(NC).fill(0);
+    const nahco3 = 0.25 / MW.NaHCO3 * 1000 * p.alkFactor; // mM i avloppsvattnet
+    f[NA] = nahco3 * p.Qw / Qt;
+    f[CT] = nahco3 * p.Qw / Qt;
+    f[AC] = 0.0875 / MW.HAc * 1000 * p.Qw / Qt;
+    f[PT] = p.Pin / MW.P * p.Qw / Qt;
+    f[AL] = 200 * qAl / Qt;       // 0,1 M Al2(SO4)3 = 0,2 M Al
+    f[SO4] = 300 * qAl / Qt;
+    return { c: f, Qt };
+  }
+
+  // Kemisk fosfatfällning och flockavskiljning
+  function removal(pH, p, feed) {
+    const ratio = feed.c[PT] > 0 ? feed.c[AL] / feed.c[PT] : 0;
+    const fRatio = 1 - Math.exp(-ratio / 2.5);
+    const fpH = Math.exp(-(((pH - 6.8) / 1.1) ** 2));
+    const dose = p.polyRate * 0.5 / feed.Qt; // mg/L polyelektrolyt
+    const settle = 0.80 + 0.18 * (1 - Math.exp(-dose / 1.5));
+    return { eta: fRatio * fpH * settle, chem: fRatio * fpH, settle, dose };
+  }
+
+  class Plant {
+    constructor(params) {
+      this.p = Object.assign(defaultParams(), params || {});
+      this.t = 0;
+      this.reset();
+    }
+    reset(startPH) {
+      const feed = feedOf(this.p);
+      this.feed = feed;
+      this.cB = feed.c.slice();
+      this.c1 = feed.c.slice();
+      this.c2 = feed.c.slice();
+      this.pD = feed.c[PT] * MW.P; this.pE = this.pD; // mg/L P
+      this.alD = 0; this.alE = 0;
+      this.doseQueue = [];
+      this.pH1 = solvePH(this.c1); this.pH2 = solvePH(this.c2);
+      this.el = this.pH2; this.driftOff = 0;
+      this.t = 0;
+    }
+    // Ställ C1/C2 i jämvikt för en given konstant NaOH-tillsats (%)
+    settle(u) {
+      const feed = this.feed;
+      const add = u / 100 * this.p.naohMax / 1000 * this.p.naohConc * 1000 / feed.Qt; // mM
+      const c = feed.c.slice(); c[NA] += add;
+      this.c1 = c.slice(); this.c2 = c.slice();
+      this.pH1 = this.pH2 = solvePH(c); this.el = this.pH2;
+      const r = removal(this.pH2, this.p, feed);
+      this.pD = this.pE = feed.c[PT] * MW.P * (1 - r.eta);
+      this.doseQueue = [];
+    }
+    updateFeed() { this.feed = feedOf(this.p); }
+    addHCl() {
+      const mmol = this.p.hclConc * this.p.hclVol; // mmol
+      this.c1[CL] += mmol / this.p.VC1;
+    }
+    // dt i sekunder, u = pumpeffekt i %
+    step(dt, u, rng) {
+      const p = this.p, feed = this.feed, Qs = feed.Qt / 60; // L/s
+      // dödtid i doseringsslang
+      this.doseQueue.push([this.t + p.deadDose, u]);
+      let uEff = this.uEff || 0;
+      while (this.doseQueue.length && this.doseQueue[0][0] <= this.t) uEff = this.doseQueue.shift()[1];
+      this.uEff = uEff;
+      const naoh = uEff / 100 * p.naohMax / 60000 * p.naohConc * 1000; // mmol/s
+      // B
+      for (let i = 0; i < NC; i++) this.cB[i] += dt * Qs / p.VB * (feed.c[i] - this.cB[i]);
+      // C1 (NaOH tillsätts här)
+      for (let i = 0; i < NC; i++) this.c1[i] += dt * Qs / p.VC1 * (this.cB[i] - this.c1[i]);
+      this.c1[NA] += dt * naoh / p.VC1;
+      // C2 (elektrod sitter här)
+      for (let i = 0; i < NC; i++) this.c2[i] += dt * Qs / p.VC2 * (this.c1[i] - this.c2[i]);
+      this.pH1 = solvePH(this.c1);
+      this.pH2 = solvePH(this.c2);
+      // elektrod
+      this.el += dt / p.tauEl * (this.pH2 - this.el);
+      this.driftOff += p.drift * dt / 3600;
+      // fosfat- och aluminiumtransport genom D och E
+      const r = removal(this.pH2, p, feed);
+      const pInMg = feed.c[PT] * MW.P;
+      const pAfter = pInMg * (1 - r.eta);
+      const h = 10 ** -this.pH2;
+      const al = alSpecies(h, this.c2[AL] * 1e-3);
+      const alOut = (al.diss + (1 - r.settle) * al.solid * 0.15) * MW.Al * 1000; // mg/L
+      this.pD += dt * Qs / p.VD * (pAfter - this.pD);
+      this.pE += dt * Qs / p.VE * (this.pD - this.pE);
+      this.alD += dt * Qs / p.VD * (alOut - this.alD);
+      this.alE += dt * Qs / p.VE * (this.alD - this.alE);
+      this.alDiss = al.diss * MW.Al * 1e6; // µg/L
+      this.removal = r;
+      this.t += dt;
+      const n = rng ? rng() : 0;
+      this.pv = this.el + this.driftOff + n * p.noise;
+      return this.pv;
+    }
+  }
+
+  // PID-regulator med P = proportionalband (%), I = Ti (s), D = Td (s), ARW = band (%)
+  class PID {
+    constructor() { this.set(15, 0, 0, 0); this.reset(); this.bias = 0; this.Ts = 1; this.range = 14; }
+    set(P, I, D, ARW) { this.P = P; this.I = I; this.D = D; this.ARW = ARW; }
+    reset() { this.integ = 0; this.dState = null; this.dFilt = 0; this.u = 0; this.acc = 0; }
+    // anropas varje sim-steg; uppdaterar utsignalen var Ts sekund
+    update(dt, sp, pv) {
+      this.acc += dt;
+      if (this.acc < this.Ts - 1e-9) return this.u;
+      const Ts = this.acc; this.acc = 0;
+      const Kc = 100 / Math.max(1, this.P);
+      const e = (sp - pv) / this.range * 100;
+      const xp = pv / this.range * 100;
+      // D-del på mätvärdet, filtrerad (N = 8)
+      let d = 0;
+      if (this.D > 0) {
+        if (this.dState === null) this.dState = xp;
+        const Tf = Math.max(Ts, this.D / 8);
+        const raw = -(xp - this.dState) / Ts;
+        this.dFilt += Ts / (Tf + Ts) * (raw - this.dFilt);
+        d = Kc * this.D * this.dFilt;
+      }
+      this.dState = xp;
+      const pTerm = Kc * e;
+      let uUnsat = this.bias + pTerm + this.integ + d;
+      if (this.I > 0) {
+        const di = Kc * e * Ts / this.I;
+        if (this.ARW > 0) {
+          const sat = (uUnsat >= 100 && di > 0) || (uUnsat <= 0 && di < 0);
+          if (!sat && Math.abs(e) <= this.ARW) this.integ += di;
+        } else {
+          this.integ += di;
+          this.integ = Math.max(-400, Math.min(400, this.integ)); // registergräns
+        }
+      } else this.integ = 0;
+      uUnsat = this.bias + pTerm + this.integ + d;
+      this.u = Math.max(0, Math.min(100, uUnsat));
+      this.parts = { p: pTerm, i: this.integ, d, e };
+      return this.u;
+    }
+  }
+
+  // Deterministisk slumpgenerator (normalfördelad)
+  function makeRng(seed) {
+    let s = seed >>> 0 || 1;
+    const uni = () => { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; };
+    return () => { let u = 0, v = 0; while (u === 0) u = uni(); v = uni(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  }
+
+  const api = { solvePH, alSpecies, feedOf, removal, Plant, PID, makeRng, defaultParams, MW, K, IDX: { NA, CL, SO4, CT, AC, PT, AL } };
+  if (typeof module !== 'undefined') module.exports = api; else root.WTP = api;
+})(this);
+
+</script>
+<script>
+(() => {
+'use strict';
+const $ = (id) => document.getElementById(id);
+const W = window.WTP;
+
+// ---------- slump ----------
+const gauss = () => { let u = 0; while (!u) u = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random()); };
+
+// ---------- tillstånd ----------
+const PRESETS = [
+  [15, 0, 0, 0, 'P-reglering'], [15, 0, 0, 15, 'P-reglering'], [70, 0, 0, 0, 'P-reglering'],
+  [15, 100, 0, 15, 'PI-reglering'], [15, 300, 0, 15, 'PI-reglering'], [15, 500, 0, 15, 'PI-reglering'],
+  [20, 50, 100, 15, 'PID-reglering'], [20, 200, 50, 0, 'PID-reglering'], [20, 200, 50, 15, 'PID-reglering'],
+];
+let S; // allt simuleringstillstånd
+const DT = 0.5, REC_EVERY = 2;
+
+function newState() {
+  const plant = new W.Plant({ Pin: 6.5 * (1 + 0.035 * gauss()) });
+  plant.settle(0);
+  const pid = new W.PID();
+  const st = {
+    plant, pid, sp: 7.0, mode: 'auto', manU: 0, running: false, started: false, speed: 30,
+    t: 0, acc: 0, recAcc: 0,
+    rec: { t: [], pv: [], sp: [], u: [], pH: [], pout: [] },
+    events: [], // {t, type:'set'|'hcl', label}
+    log: [], // {n, t, P,I,D,ARW, notes:{}}
+    rack: [], fia: [], fiaQueue: [], fiaTrace: [], fiaT: 0, selVial: null,
+    sampleN: { in: 0, out: 0 },
+  };
+  return st;
+}
+
+// ---------- hjälp ----------
+const fmtT = (s) => { s = Math.max(0, Math.floor(s)); const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60; return [h, m, x].map(v => String(v).padStart(2, '0')).join(':'); };
+const fmtMin = (s) => (s / 60).toFixed(1).replace('.', ',');
+const dec = (v, n) => (v == null || !isFinite(v)) ? '–' : v.toFixed(n).replace('.', ',');
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 2200); }
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); toast('Kopierat. Klistra in i kalkylblad eller rapport.'); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast('Kopierat.'); } catch (_) { toast('Markera texten och kopiera manuellt.'); } ta.remove(); }
+}
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let C = {};
+let FM = 'monospace', FB = 'sans-serif', themeV = 0;
+function readColors() { FM = css('--font-mono') || 'monospace'; FB = css('--font-body') || 'sans-serif'; themeV++; ['--fg','--fg-2','--fg-3','--line','--paper','--grid-minor','--grid-major','--pen-pv','--pen-u','--pen-sp','--pen-std','--crit','--surface','--accent','--water','--water-deep','--good','--warn'].forEach(k => C[k.slice(2)] = css(k)); }
+
+
+// ---------- regulator ----------
+function readParams() {
+  return { P: Math.max(1, +$('pP').value || 15), I: Math.max(0, +$('pI').value || 0), D: Math.max(0, +$('pD').value || 0), ARW: Math.max(0, +$('pARW').value || 0), SP: +$('pSP').value || 7, bias: Math.max(0, Math.min(100, +$('pBias').value || 0)) };
+}
+function applySettings(first) {
+  const p = readParams();
+  const pid = S.pid; const keepI = pid.integ;
+  pid.set(p.P, p.I, p.D, p.ARW); pid.bias = p.bias; S.sp = p.SP;
+  if (p.I === 0) pid.integ = 0; else pid.integ = keepI;
+  $('dSP').textContent = p.SP.toFixed(2);
+  const label = `P${p.P} I${p.I} D${p.D} ARW${p.ARW}` + (p.bias ? ` B${p.bias}` : '') + (p.SP !== 7 ? ` BÖR ${p.SP}` : '');
+  S.events.push({ t: S.t, type: 'set', label });
+  const n = S.log.length;
+  S.log.push({ n: n + 1, t: S.t, P: p.P, I: p.I, D: p.D, ARW: p.ARW, bias: p.bias, sp: p.SP, notes: {} });
+  renderLog();
+  if (!first) toast(`Inställning ${n + 1} tillämpad: ${label}`);
+}
+function setMode(m) {
+  S.mode = m;
+  $('modeAuto').setAttribute('aria-pressed', m === 'auto'); $('modeMan').setAttribute('aria-pressed', m === 'man');
+  $('manBox').hidden = m !== 'man';
+  if (m === 'man') { $('manU').value = Math.round(S.pid.u); $('manUv').textContent = Math.round(S.pid.u); S.manU = S.pid.u; S.events.push({ t: S.t, type: 'set', label: 'MAN' }); }
+  else { S.pid.integ = S.manU - S.pid.bias - (100 / S.pid.P) * (S.sp - S.plant.pv) / 14 * 100; if (S.pid.I === 0) S.pid.integ = 0; S.events.push({ t: S.t, type: 'set', label: 'AUTO' }); }
+}
+
+// ---------- simulering ----------
+function simStep() {
+  const pl = S.plant;
+  const pv = pl.pv ?? pl.el;
+  const u = S.mode === 'auto' ? S.pid.update(DT, S.sp, pv) : (S.pid.u = S.manU);
+  pl.step(DT, u, gauss);
+  S.t += DT;
+  S.pvDisp = S.pvDisp == null ? pl.pv : S.pvDisp + DT / 6 * (pl.pv - S.pvDisp);
+  S.uDisp = S.uDisp == null ? u : S.uDisp + DT / 6 * (u - S.uDisp);
+  S.recAcc += DT;
+  if (S.recAcc >= REC_EVERY - 1e-9) {
+    S.recAcc = 0; const r = S.rec;
+    r.t.push(S.t); r.pv.push(pl.pv); r.sp.push(S.sp); r.u.push(u); r.pH.push(pl.pH2); r.pout.push(pl.pE);
+  }
+}
+let last = performance.now();
+function frame(now) {
+  const real = Math.min(0.25, (now - last) / 1000); last = now;
+  if (S.running) {
+    S.acc += real * S.speed;
+    let n = 0;
+    while (S.acc >= DT && n < 2000) { simStep(); S.acc -= DT; n++; }
+  }
+  fiaTick(real);
+  render();
+  requestAnimationFrame(frame);
+}
+
+// ---------- processchema ----------
+const SVGNS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent, text) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) { const v = String(attrs[k]); if ((k === 'fill' || k === 'stroke') && v.includes('var(')) e.style[k] = v; else e.setAttribute(k, v); } if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; }
+// Geometri för tanken (viewBox-enheter, y växer nedåt). Bassäng A -> E från vänster till höger.
+// Hela verket är ETT kärl: skiljeväggar som slutar under vattenytan = överfall (över),
+// skiljeväggar som hänger från kanten och slutar ovanför botten = underfall (under).
+const TANK = { rim: 120, level: 132, floor: 220, floorDE: 232, outL: 480, outR: 520, bottom: 340, wallT: 4 };
+const XS = [10, 110, 150, 270, 370, 630];          // vänster vägg, A|B, B|C, C|D, D|E, höger vägg
+const POOLS = [
+  { id: 'A', name: 'Sedimentering', x0: XS[0], x1: XS[1] },
+  { id: 'B', name: 'Koagulering',   x0: XS[1], x1: XS[2] },
+  { id: 'C', name: 'pH-justering',  x0: XS[2], x1: XS[3] },
+  { id: 'D', name: 'Flockning',     x0: XS[3], x1: XS[4] },
+  { id: 'E', name: 'Sedimentering', x0: XS[4], x1: XS[5] },
+];
+let svgRefs = {};
+function buildSchema() {
+  const g = $('pools'), d = $('dosers');
+  const T = TANK;
+  g.innerHTML = ''; d.innerHTML = '';
+  // Kärlets insida som sluten polygon: används som klippmask för vattnet
+  const inside = `M${XS[0]},${T.level} V${T.floor} H${XS[3]} L${XS[4]},${T.floorDE} L${T.outL},${T.bottom} H${T.outR} L${XS[5]},${T.floorDE} V${T.level} Z`;
+  el('path', { d: inside }, el('clipPath', { id: 'tankClip' }, g));
+  const water = el('g', { 'clip-path': 'url(#tankClip)' }, g);
+  // en vattenrektangel per bassäng; de möts i skiljeväggarnas mittlinje
+  POOLS.forEach(p => {
+    svgRefs['w' + p.id] = el('rect', { x: p.x0, y: T.level, width: p.x1 - p.x0, height: T.bottom - T.level, fill: 'var(--water)' }, water);
+  });
+  // slam i A (statiskt) och i trattens botten i E
+  el('rect', { x: XS[0] + 2, y: T.floor - 9, width: XS[1] - XS[0] - 4, height: 8, fill: 'var(--fg-3)', opacity: .35 }, g);
+  svgRefs.sludgeE = el('polygon', { points: `439,300 561,300 ${T.outR},${T.bottom} ${T.outL},${T.bottom}`, fill: 'var(--fg-3)', opacity: .35 }, g);
+  // flockar i D
+  svgRefs.flocks = el('g', {}, g);
+  for (let k = 0; k < 22; k++) el('circle', { cx: XS[3] + 8 + Math.random() * (XS[4] - XS[3] - 16), cy: T.level + 14 + Math.random() * 62, r: 1.5 + Math.random() * 2.5, fill: 'var(--fg-3)', opacity: .55 }, svgRefs.flocks);
+  // yttervägg: ett enda öppet streck (ingen överkant); högra väggen slutar vid vattenytan = utloppsöverfall
+  const outline = `M${XS[0]},${T.rim} V${T.floor} H${XS[3]} L${XS[4]},${T.floorDE} L${T.outL},${T.bottom} H${T.outR} L${XS[5]},${T.floorDE} V${T.level}`;
+  el('path', { d: outline, fill: 'none', stroke: 'var(--fg-2)', 'stroke-width': T.wallT, 'stroke-linejoin': 'round' }, g);
+  // skiljeväggar
+  const wall = (x, y0, y1) => el('rect', { x: x - T.wallT / 2, y: y0, width: T.wallT, height: y1 - y0, fill: 'var(--fg-2)' }, g);
+  wall(48, T.rim, 170);            // inloppsskärm
+  wall(XS[1], 150, T.floor);       // A|B  överfall (över)
+  wall(XS[2], T.rim, 195);         // B|C  underfall (under)
+  wall(XS[3], 160, T.floor);       // C|D  överfall (över)
+  wall(XS[4], T.rim, 205);         // D|E  underfall (under)
+  // skiljevägg mellan C1 och C2
+  //el('line', { x1: 210, y1: 165, x2: 210, y2: T.floor, stroke: 'var(--fg-3)', 'stroke-dasharray': '4 3' }, g);
+  // Omröraraxel
+  el('line', { x1: 210, y1: 120, x2: 210, y2: 195, stroke: 'var(--fg-3)', 'stroke-width': 3, 'stroke-linecap': 'round' }, g);
+  el('path', { d: `M 210 195, C 190 205, 190 185, 210 195`, fill: 'none', stroke: 'var(--fg-3)', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, g);
+  el('path', { d: `M 210 195, C 230 205, 230 185, 210 195`, fill: 'none', stroke: 'var(--fg-3)', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, g);
+
+
+  // lamellplattor i E
+  for (let k = 0; k < 9; k++) {
+    const x = 614 - k * 22;
+    el('path', { d: `M${x},${T.rim} V150 L${x - 38},240`, fill: 'none', stroke: 'var(--fg-2)', 'stroke-width': 3, 'stroke-linecap': 'round' }, g);
+  }
+  // utloppsränna till höger och slamutlopp under tratten
+  el('rect', { x: XS[5] + 2, y: 160, width: 23, height: 28, fill: 'var(--water)' }, g);
+  el('path', { d: `M${XS[5]},${T.rim} H655 V190 H${XS[5]}`, fill: 'none', stroke: 'var(--fg-2)', 'stroke-width': T.wallT, 'stroke-linejoin': 'round' }, g);
+  el('rect', { x: 488, y: T.bottom, width: 24, height: 12, fill: 'var(--surface)', stroke: 'var(--fg-2)', 'stroke-width': T.wallT }, g);
+  // inflöde och utflöde
+  el('line', { x1: 0, y1: 140, x2: 8, y2: 140, stroke: 'var(--fg-3)', 'stroke-width': 2, 'marker-end': 'url(#arr)' }, g);
+  el('line', { x1: 656, y1: 175, x2: 676, y2: 175, stroke: 'var(--fg-3)', 'stroke-width': 2, 'marker-end': 'url(#arr)' }, g);
+  // elektrod i C2
+  el('line', { x1: 240, y1: 32, x2: 240, y2: 190, stroke: 'var(--fg)', 'stroke-width': 3 }, g);
+  el('circle', { cx: 240, cy: 192, r: 5, fill: 'var(--fg)' }, g);
+  el('rect', { x: 207, y: 6, width: 66, height: 26, rx: 3, fill: 'var(--surface)', stroke: 'var(--fg-2)' }, g);
+  svgRefs.elTxt = el('text', { x: 240, y: 24, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, class: 'mono', style: 'fill:var(--fg);font-family:var(--font-mono)' }, g, 'pH –');
+  // doseringar (elbow = x där röret ska mynna om kärlet står bredvid mynningen)
+  const doser = (x, label, sub, color, ref, tx) => {
+    el('rect', { x: x - 34, y: 40, width: 68, height: 36, rx: 4, fill: 'var(--surface)', stroke: color, 'stroke-width': 1.5 }, d);
+    el('text', { x, y: 55, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 600, style: 'fill:var(--fg)' }, d, label);
+    const t = el('text', { x, y: 69, 'text-anchor': 'middle', 'font-size': 10, style: 'font-family:var(--font-mono)' }, d, sub);
+    const to = tx ?? x, yEnd = T.level + 0;
+    el('path', { d: to === x ? `M${x},77 V${yEnd}` : `M${x},77 V98 H${to} V${yEnd}`, fill: 'none', stroke: color, 'stroke-width': 2, 'marker-end': 'url(#arr)' }, d);
+    if (ref) svgRefs[ref] = t;
+  };
+  doser(90, 'Al₂(SO₄)₃', '10 ml/min', 'var(--fg-2)', 'alTxt', 130);   // kärlet till vänster, rör till B
+  doser(180, 'NaOH 2 M', '0 %', 'var(--pen-u)', 'naohTxt');           // C1
+  doser(320, 'Polymer', '6 ml/min', 'var(--fg-2)', 'polyTxt');        // D
+  // etiketter: C1/C2 inne i vattnet, bokstav + namn under tanken för A-D, inne i tratten för E
+  //el('text', { x: 180, y: 208, 'text-anchor': 'middle', 'font-size': 10 }, g, 'C1');
+  //el('text', { x: 240, y: 208, 'text-anchor': 'middle', 'font-size': 10 }, g, 'C2');
+  POOLS.forEach(p => {
+    const cx = p.id === 'E' ? 500 : (p.x0 + p.x1) / 2;
+    const yL = p.id === 'E' ? 268 : 244;
+    el('text', { x: cx, y: yL, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 700, style: 'fill:var(--fg)' }, g, p.id);
+    el('text', { x: cx, y: yL + 15, 'text-anchor': 'middle', 'font-size': 10 }, g, p.name);
+  });
+  // HCl-blixt
+  svgRefs.hcl = el('text', { x: 180, y: 175, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, style: 'fill:var(--crit)', opacity: 0 }, g, 'HCl!');
+}
+function pHtint(pH) {
+  // neutral vattenton nära 7, rödaktig vid lågt, violett vid högt pH (diskret, som indikator)
+  const t = Math.max(-1, Math.min(1, (pH - 7) / 3));
+  return t < 0 ? `color-mix(in srgb, var(--crit) ${Math.round(-t * 40)}%, var(--water))` : `color-mix(in srgb, #6250d6 ${Math.round(t * 40)}%, var(--water))`;
+}
+
+// ---------- skrivarremsa ----------
+let winMin = 30, follow = true, viewEnd = 0;
+function setupCanvas(cv) {
+  const dpr = window.devicePixelRatio || 1;
+  // ritytans CSS-höjd sparas en gång. Attributet 'height' skrivs över när pixelbufferten
+  // skalas med skärmens pixeltäthet och får därför inte läsas igen (gav växande remsa vid 125–175 % skalning)
+  if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height');
+  const h = +cv.dataset.h;
+  // bredden hämtas från omslutande ruta (inte från canvasen) så att ritytan aldrig kan trycka ut layouten
+  const w = Math.max(50, Math.floor(cv.parentElement.clientWidth));
+  if (cv.style.width !== w + 'px') cv.style.width = w + 'px';
+  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); cv.style.height = h + 'px'; }
+  const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return { ctx, w, h };
+}
+const recPad = { l: 46, r: 26, t: 22, b: 22 };
+function idxAt(t) { const a = S.rec.t; let lo = 0, hi = a.length - 1; if (hi < 0) return -1; while (lo < hi) { const m = (lo + hi) >> 1; if (a[m] < t) lo = m + 1; else hi = m; } return lo; }
+// linjer låses till skärmens fysiska pixlar så att de flyttar sig jämnt även vid 125–175 % skalning
+const snapX = (x) => { const d = window.devicePixelRatio || 1; return (Math.floor(x * d) + 0.5) / d; };
+function drawStrip(cv, ymin, ymax, ystepMinor, ystepMajor, series, unitFmt, showEvents) {
+  const { ctx, w, h } = setupCanvas(cv);
+  const L = recPad.l, R = w - recPad.r, T = showEvents ? recPad.t : 8, B = h - recPad.b;
+  ctx.clearRect(0, 0, w, h);
+  const span = winMin * 60, t1 = viewEnd, t0 = t1 - span;
+  const X = (t) => L + (t - t0) / span * (R - L), Y = (v) => B - (v - ymin) / (ymax - ymin) * (B - T);
+  // rutnät
+  const minorT = winMin <= 30 ? 60 : 300, majorT = winMin <= 10 ? 300 : winMin <= 30 ? 300 : winMin <= 60 ? 600 : 1800;
+  ctx.lineWidth = 1;
+  for (let v = ymin; v <= ymax + 1e-9; v += ystepMinor) { const major = Math.abs(v / ystepMajor - Math.round(v / ystepMajor)) < 1e-6; ctx.strokeStyle = major ? C['grid-major'] : C['grid-minor']; ctx.beginPath(); ctx.moveTo(L, Math.round(Y(v)) + .5); ctx.lineTo(R, Math.round(Y(v)) + .5); ctx.stroke(); }
+  for (let t = Math.ceil(t0 / minorT) * minorT; t <= t1; t += minorT) { const major = t % majorT === 0; ctx.strokeStyle = major ? C['grid-major'] : C['grid-minor']; ctx.beginPath(); const xg = snapX(X(t)); ctx.moveTo(xg, T); ctx.lineTo(xg, B); ctx.stroke(); }
+  // y-etiketter
+  ctx.fillStyle = C['fg-2']; ctx.font = '11px ' + FM; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let v = ymin; v <= ymax + 1e-9; v += ystepMajor) ctx.fillText(unitFmt(v), L - 6, Y(v));
+  // x-etiketter
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let t = Math.ceil(t0 / majorT) * majorT; t <= t1; t += majorT) if (t >= 0) ctx.fillText(Math.round(t / 60) + ' min', X(t), B + 5);
+  // händelser
+  ctx.save(); ctx.beginPath(); ctx.rect(L, T - (showEvents ? 20 : 0), R - L, B - T + (showEvents ? 20 : 0)); ctx.clip();
+  for (const e of S.events) {
+    if (e.t < t0 || e.t > t1) continue;
+    const x = snapX(X(e.t));
+    ctx.strokeStyle = e.type === 'hcl' ? C.crit : C['fg-3']; ctx.lineWidth = e.type === 'hcl' ? 1.5 : 1; ctx.setLineDash(e.type === 'hcl' ? [] : [3, 3]);
+    ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, B); ctx.stroke(); ctx.setLineDash([]);
+    if (showEvents) { ctx.fillStyle = e.type === 'hcl' ? C.crit : C['fg-2']; ctx.font = '600 10.5px ' + FB; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; if (e.type === 'hcl') { ctx.textBaseline = 'bottom'; ctx.fillText('HCl', x + 3, B - 3); } else ctx.fillText(e.label, x + 3, T - 6); }
+  }
+  // kurvor
+  const r = S.rec; const i0 = Math.max(0, idxAt(t0) - 1), i1 = Math.min(r.t.length - 1, idxAt(t1) + 1);
+  const bw = span / (R - L); // sekunder per pixel
+  const dense = (i1 - i0) > (R - L) * 1.2;
+  for (const s of series) {
+    ctx.strokeStyle = s.color; ctx.lineWidth = s.w || 2; ctx.setLineDash(s.dash || []); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.beginPath(); let started = false;
+    const pt = (t, v) => { v = Math.max(ymin - 1, Math.min(ymax + 1, v)); const x = X(t), y = Y(v); if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y); };
+    if (!dense) { for (let i = i0; i <= i1; i++) pt(r.t[i], s.data[i]); }
+    else {
+      // min/max per pixelkolumn, kolumnerna låsta till absolut tid så att bilden inte skimrar
+      let bin = null, mn = 0, mx = 0, tmn = 0, tmx = 0;
+      const flush = () => { if (bin == null) return; if (tmn <= tmx) { pt(tmn, mn); if (tmx !== tmn) pt(tmx, mx); } else { pt(tmx, mx); pt(tmn, mn); } };
+      for (let i = i0; i <= i1; i++) { const b = Math.floor(r.t[i] / bw), v = s.data[i];
+        if (b !== bin) { flush(); bin = b; mn = mx = v; tmn = tmx = r.t[i]; }
+        else { if (v < mn) { mn = v; tmn = r.t[i]; } if (v > mx) { mx = v; tmx = r.t[i]; } } }
+      flush();
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  // pennan: punkt vid senaste värdet och en kort pennarm ut till kanten
+  if (r.t.length && follow) { const iL = r.t.length - 1; const xp = X(r.t[iL]);
+    for (const s of series) { if (s.noDot) continue; const yp = Y(Math.max(ymin, Math.min(ymax, s.data[iL])));
+      ctx.strokeStyle = s.color; ctx.globalAlpha = .45; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xp, yp); ctx.lineTo(R, yp); ctx.stroke(); ctx.globalAlpha = 1;
+      ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(xp, yp, 3.5, 0, 7); ctx.fill(); } }
+  ctx.restore();
+  // ram
+  ctx.strokeStyle = C['grid-major']; ctx.lineWidth = 1; ctx.strokeRect(L + .5, T + .5, R - L - 1, B - T - 1);
+  // hover
+  if (hoverT != null && hoverT >= t0 && hoverT <= t1) { const x = Math.round(X(hoverT)) + .5; ctx.strokeStyle = C.fg; ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, B); ctx.stroke(); ctx.globalAlpha = 1;
+    const i = idxAt(hoverT); if (i >= 0) for (const s of series) { if (s.noDot) continue; const v = s.data[i]; ctx.fillStyle = s.color; ctx.strokeStyle = C.paper; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(r.t[i]), Y(Math.max(ymin, Math.min(ymax, v))), 4.5, 0, 7); ctx.fill(); ctx.stroke(); } }
+  return { X, L, R, t0, t1 };
+}
+let hoverT = null, stripGeom = null;
+let recKey = '';
+function drawRecorder(force) {
+  const r = S.rec;
+  const tNow = S.t, span = winMin * 60;
+  // som en pappersskrivare: pennan står still nära högerkanten och papperet rör sig åt vänster med konstant hastighet
+  const pxW = Math.max(100, $('recWrap').clientWidth - recPad.l - recPad.r);
+  if (follow) viewEnd = tNow + span * 0.015;
+  const q = span / pxW / 2; // halv bildpunkt i tid
+  const key = [r.t.length, Math.round(viewEnd / q), winMin, hoverT, $('recWrap').clientWidth, S.events.length, themeV].join('|');
+  if (!force && key === recKey) return; recKey = key;
+  const sc = $('scroll'); sc.max = Math.max(0, Math.floor(tNow - span)); if (follow) sc.value = Math.max(0, viewEnd - span);
+  stripGeom = drawStrip($('cPH'), 3, 11, 0.5, 1, [
+    { data: r.sp, color: C['pen-sp'], w: 1.5, dash: [6, 4], noDot: true },
+    { data: r.pv, color: C['pen-pv'], w: 2 },
+  ], v => v.toFixed(0), true);
+  drawStrip($('cU'), 0, 100, 10, 50, [{ data: r.u, color: C['pen-u'], w: 2 }], v => v + ' %', false);
+}
+function recHover(ev) {
+  if (!stripGeom || !S.rec.t.length) return;
+  const cv = ev.currentTarget; const rect = cv.getBoundingClientRect(); const x = ev.clientX - rect.left;
+  if (x < stripGeom.L || x > stripGeom.R) { recLeave(); return; }
+  const t = stripGeom.t0 + (x - stripGeom.L) / (stripGeom.R - stripGeom.L) * (stripGeom.t1 - stripGeom.t0);
+  const i = idxAt(t); if (i < 0 || S.rec.t[i] > S.t + 1) { recLeave(); return; }
+  hoverT = S.rec.t[i];
+  const tip = $('recTip'); const r = S.rec;
+  tip.innerHTML = `<div class="mono">t = ${fmtT(r.t[i])} (${fmtMin(r.t[i])} min)</div><div>ÄR <b class="mono">${dec(r.pv[i], 2)}</b> · BÖR <span class="mono">${dec(r.sp[i], 2)}</span></div><div>Utsignal <b class="mono">${dec(r.u[i], 1)} %</b></div>`;
+  tip.hidden = false;
+  const wrap = $('recWrap').getBoundingClientRect();
+  let left = ev.clientX - wrap.left + 14; if (left + 190 > wrap.width) left = ev.clientX - wrap.left - 200;
+  tip.style.left = left + 'px'; tip.style.top = (ev.clientY - wrap.top + 12) + 'px';
+}
+function recLeave() { hoverT = null; $('recTip').hidden = true; }
+
+// ---------- protokoll / nyckeltal ----------
+function smoothAt(arr, i, n) { let s = 0, c = 0; for (let k = Math.max(0, i - n); k <= Math.min(arr.length - 1, i + n); k++) { s += arr[k]; c++; } return s / c; }
+function metrics(row, idx) {
+  const tA = row.t, tB = idx + 1 < S.log.length ? S.log[idx + 1].t : S.t;
+  const r = S.rec; const iA = idxAt(tA), iB = Math.min(r.t.length - 1, idxAt(tB) - 1);
+  if (iA < 0 || iB - iA < 30) return null;
+  const hcl = S.events.find(e => e.type === 'hcl' && e.t >= tA && e.t < tB);
+  const tPreEnd = hcl ? hcl.t : tB; const iPreEnd = Math.min(iB, idxAt(tPreEnd) - 1);
+  const win = 90; // 3 min vid 2 s/sampel
+  const iPre0 = Math.max(iA, iPreEnd - win);
+  if (iPreEnd - iPre0 < 20) return null;
+  let m = 0; for (let i = iPre0; i <= iPreEnd; i++) m += r.pv[i]; m /= (iPreEnd - iPre0 + 1);
+  const out = { off: m - row.sp };
+  // insvängning: sista gång glättat pH lämnar ±0,1 kring medel
+  let lastOut = null; for (let i = iA; i <= iPreEnd; i++) if (Math.abs(smoothAt(r.pv, i, 3) - m) > 0.1) lastOut = r.t[i];
+  out.settle = lastOut == null ? 0 : (lastOut - tA);
+  out.settleOK = lastOut == null || r.t[iPreEnd] - lastOut > 120;
+  if (hcl) {
+    const iH = idxAt(hcl.t); let mn = Infinity; for (let i = iH; i <= iB; i++) mn = Math.min(mn, r.pv[i]); out.min = mn;
+    let lo = null; for (let i = iH; i <= iB; i++) if (Math.abs(smoothAt(r.pv, i, 3) - row.sp) > 0.15) lo = r.t[i];
+    out.rec = lo == null ? 0 : lo - hcl.t; out.recOK = lo != null && r.t[iB] - lo > 120;
+  }
+  return out;
+}
+const NOTE_KEYS = ['off', 'settle', 'min', 'rec', 'com'];
+function renderLog() {
+  const tb = $('logTable').tBodies[0]; tb.innerHTML = '';
+  S.log.forEach((row, idx) => {
+    const tr = document.createElement('tr'); if (idx === S.log.length - 1) tr.className = 'cur';
+    tr.innerHTML = `<td class="num">${row.n}</td><td class="mono">${fmtT(row.t)}</td><td class="mono">${row.P} / ${row.I} / ${row.D} / ${row.ARW}${row.bias ? `<br><span class="small muted">bias ${row.bias}</span>` : ''}</td>` +
+      NOTE_KEYS.map(k => `<td><input type="text" class="${k === 'com' ? 'note' : ''}" data-i="${idx}" data-k="${k}" value="${(row.notes[k] || '').replace(/"/g, '&quot;')}" aria-label="${k}"><span class="auto" data-ai="${idx}" data-ak="${k}"></span></td>`).join('');
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => { S.log[+inp.dataset.i].notes[inp.dataset.k] = inp.value; }));
+  updateAuto();
+}
+function updateAuto() {
+  const show = $('showAuto').checked;
+  document.querySelectorAll('#logTable .auto').forEach(sp => {
+    if (!show) { sp.textContent = ''; return; }
+    const idx = +sp.dataset.ai, k = sp.dataset.ak; const m = metrics(S.log[idx], idx);
+    if (!m) { sp.textContent = k === 'com' ? '' : '…'; return; }
+    let t = '';
+    if (k === 'off') t = (m.off >= 0 ? '+' : '') + dec(m.off, 2);
+    if (k === 'settle') t = m.settleOK ? fmtMin(m.settle) : 'ej stabil';
+    if (k === 'min') t = m.min != null ? dec(m.min, 2) : 'ingen HCl';
+    if (k === 'rec') t = m.min == null ? '' : (m.recOK ? fmtMin(m.rec) : 'ej stabil');
+    sp.textContent = t;
+  });
+}
+function logText() {
+  const h = ['#', 'Start', 'P', 'I', 'D', 'ARW', 'Bias', 'BÖR', 'ÄR−BÖR', 'Insvängning (min)', 'Lägsta pH', 'Stabil igen (min)', 'Kommentar'];
+  return [h.join('\t')].concat(S.log.map(r => [r.n, fmtT(r.t), r.P, r.I, r.D, r.ARW, r.bias, r.sp, r.notes.off || '', r.notes.settle || '', r.notes.min || '', r.notes.rec || '', r.notes.com || ''].join('\t'))).join('\n');
+}
+function dataText() {
+  const r = S.rec; const lines = ['tid_s\ttid_min\tÄR_pH\tBÖR_pH\tutsignal_%'];
+  for (let i = 0; i < r.t.length; i += 5) lines.push([r.t[i], (r.t[i] / 60).toFixed(2), r.pv[i].toFixed(3), r.sp[i], r.u[i].toFixed(1)].join('\t'));
+  return lines.join('\n');
+}
+
+// ---------- FIA ----------
+const FIA = { blank: 0.004, S: 0.0605, q: 0.0011, rsd: 0.011, sd0: 0.0012, dur: 45, tp: 18, k: 5 };
+function fiaResponse(c) { // c = mg/L P i injicerad lösning
+  const curv = c > 4.5 ? FIA.q * (c - 4.5) ** 2 : 0;
+  const a = FIA.blank + FIA.S * c - curv;
+  return Math.max(0, a * (1 + FIA.rsd * gauss()) + FIA.sd0 * gauss());
+}
+function addVial(v) { S.rack.push(v); renderRack(); }
+function defaultRack() {
+  [1, 2, 3, 4, 5].forEach(c => S.rack.push({ id: 'std' + c, name: `Standard ${c} mg/L`, kind: 'std', c, nominal: c }));
+}
+function renderRack() {
+  const box = $('rack'); box.innerHTML = '';
+  S.rack.forEach(v => {
+    const b = document.createElement('button'); b.className = 'vial'; b.setAttribute('aria-pressed', S.selVial === v.id);
+    const col = v.kind === 'std' ? 'var(--pen-std)' : v.kind === 'in' ? 'var(--pen-u)' : 'var(--pen-pv)';
+    b.innerHTML = `<span class="dot" style="background:${col}"></span><span>${v.name}</span><small>${v.kind === 'std' ? 'standard' : fmtT(v.t)}</small>`;
+    b.addEventListener('click', () => { S.selVial = v.id; renderRack(); $('injBtn').disabled = false; $('selInfo').textContent = 'Valt: ' + v.name; });
+    box.appendChild(b);
+  });
+}
+function takeSample(kind) {
+  const pl = S.plant; S.sampleN[kind]++;
+  const c = kind === 'in' ? pl.p.Pin * (1 + 0.01 * gauss()) : pl.pE * (1 + 0.02 * gauss());
+  const id = kind + S.sampleN[kind];
+  addVial({ id, name: (kind === 'in' ? 'Inflöde ' : 'Utflöde ') + S.sampleN[kind], kind, c, t: S.t, setting: S.log.length });
+  S.selVial = id; renderRack(); $('injBtn').disabled = false; $('selInfo').textContent = 'Valt: ' + S.rack.find(v => v.id === id).name;
+  toast(`Prov taget vid ${fmtT(S.t)} och ställt i provstället.`);
+}
+function mkStd() {
+  const V = +$('stdVol').value, src = +$('stdSrc').value, F = +$('stdFlask').value;
+  if (!(V > 0) || V > F) { toast('Volymen måste vara större än 0 och mindre än kolvens volym.'); return; }
+  const nominal = V * src / F; const c = nominal * (1 + 0.004 * gauss());
+  const n = S.rack.filter(v => v.kind === 'std').length + 1;
+  addVial({ id: 'cs' + n + '_' + Date.now(), name: `Standard ${dec(nominal, nominal < 1 ? 3 : 2)} mg/L`, kind: 'std', c, nominal });
+  toast('Standarden är beredd och står i provstället.');
+}
+function updStdPreview() { const V = +$('stdVol').value, src = +$('stdSrc').value, F = +$('stdFlask').value; $('stdPreview').textContent = V > 0 ? `= ${dec(V * src / F, 3)} mg/L P` : ''; }
+function inject() {
+  const v = S.rack.find(x => x.id === S.selVial); if (!v) return;
+  const dil = +$('dil').value, reps = +$('reps').value;
+  for (let k = 0; k < reps; k++) S.fiaQueue.push({ v, dil });
+  toast(`${reps} injektion${reps > 1 ? 'er' : ''} köad${reps > 1 ? 'e' : ''}.`);
+}
+// fiagram: körs i egen tid (8× snabbare än verklig FIA-tid)
+let fiaCur = null; let fiaClock = 0; const FIA_SPEED = 9;
+let fiaPend = 0; const FIA_DT = 0.2;
+function fiaTick(real) {
+  fiaPend += real * FIA_SPEED;
+  while (fiaPend >= FIA_DT) { fiaPend -= FIA_DT; fiaSample(); }
+}
+function fiaSample() {
+  fiaClock += FIA_DT;
+  if (!fiaCur && S.fiaQueue.length) { const q = S.fiaQueue.shift(); fiaCur = { ...q, t0: fiaClock, A: fiaResponse(q.v.c / q.dil), n: S.fia.length + 1 }; S.fiaMarks = (S.fiaMarks || []).concat([{ t: fiaClock, n: fiaCur.n }]); }
+  // spåra signalen
+  let y = 0.0015 * gauss() * 0.4 + 0.002;
+  if (fiaCur) {
+    const tt = fiaClock - fiaCur.t0 - 6; // transporttid
+    if (tt > 0) { const x = tt / FIA.tp; y += fiaCur.A * Math.pow(x, FIA.k) * Math.exp(FIA.k * (1 - x)); }
+    if (fiaClock - fiaCur.t0 > FIA.dur) {
+      S.fia.push({ n: fiaCur.n, vial: fiaCur.v, dil: fiaCur.dil, A: fiaCur.A + 0.002, use: fiaCur.v.kind === 'std' });
+      fiaCur = null; renderFia();
+    }
+  }
+  S.fiaTrace.push([fiaClock, y]);
+  while (S.fiaTrace.length && S.fiaTrace[0][0] < fiaClock - 480) S.fiaTrace.shift();
+}
+function drawFia() {
+  const cv = $('cFIA'); const { ctx, w, h } = setupCanvas(cv);
+  const L = 52, R = w - 10, T = 12, B = h - 24; ctx.clearRect(0, 0, w, h);
+  const t1 = fiaClock + 4, t0 = t1 - 240;
+  let top = 0.1; S.fiaTrace.forEach(p => { if (p[0] >= t0) top = Math.max(top, p[1]); }); top = Math.ceil(top * 1.15 * 10) / 10;
+  // skalan växer direkt men krymper bara när topparna har lämnat fönstret
+  if (!drawFia.ymax || top > drawFia.ymax || top < drawFia.ymax * 0.6) drawFia.ymax = top;
+  const ymax = drawFia.ymax;
+  const X = t => L + (t - t0) / 240 * (R - L), Y = v => B - v / ymax * (B - T);
+  ctx.lineWidth = 1;
+  const step = ymax > 0.6 ? 0.2 : 0.1;
+  for (let v = 0; v <= ymax + 1e-9; v += step / 2) { ctx.strokeStyle = (Math.round(v / step * 2) % 2 === 0) ? C['grid-major'] : C['grid-minor']; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(R, Y(v)); ctx.stroke(); }
+  for (let t = Math.ceil(t0 / 10) * 10; t <= t1; t += 10) { ctx.strokeStyle = t % 60 === 0 ? C['grid-major'] : C['grid-minor']; ctx.beginPath(); ctx.moveTo(X(t), T); ctx.lineTo(X(t), B); ctx.stroke(); }
+  ctx.fillStyle = C['fg-2']; ctx.font = '11px ' + FM; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let v = 0; v <= ymax + 1e-9; v += step) ctx.fillText(v.toFixed(1), L - 6, Y(v));
+  ctx.save(); ctx.translate(12, (T + B) / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.fillText('Absorbans', 0, 0); ctx.restore();
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText('tid (s) →', (L + R) / 2, B + 6);
+  (S.fiaMarks || []).forEach(m => { if (m.t < t0) return; ctx.fillStyle = C['fg-3']; ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.fillText('#' + m.n, X(m.t) + 2, T + 2); ctx.strokeStyle = C['fg-3']; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(X(m.t), T); ctx.lineTo(X(m.t), B); ctx.stroke(); ctx.setLineDash([]); });
+  ctx.strokeStyle = C['pen-pv']; ctx.lineWidth = 2; ctx.beginPath();
+  let st = false; S.fiaTrace.forEach(p => { if (p[0] < t0) return; const x = X(p[0]), y = Y(p[1]); st ? ctx.lineTo(x, y) : ctx.moveTo(x, y); st = true; }); ctx.stroke();
+  ctx.strokeStyle = C['grid-major']; ctx.strokeRect(L + .5, T + .5, R - L - 1, B - T - 1);
+}
+function fit() {
+  const pts = S.fia.filter(f => f.use && f.vial.kind === 'std').map(f => [f.vial.nominal / f.dil, f.A]);
+  if (pts.length < 2 || new Set(pts.map(p => p[0])).size < 2) return null;
+  const n = pts.length, sx = pts.reduce((s, p) => s + p[0], 0), sy = pts.reduce((s, p) => s + p[1], 0);
+  const mx = sx / n, my = sy / n; let sxx = 0, sxy = 0, syy = 0;
+  pts.forEach(p => { sxx += (p[0] - mx) ** 2; sxy += (p[0] - mx) * (p[1] - my); syy += (p[1] - my) ** 2; });
+  const k = sxy / sxx, b = my - k * mx; const r2 = syy > 0 ? (sxy * sxy) / (sxx * syy) : 1;
+  let sres = 0; pts.forEach(p => sres += (p[1] - (k * p[0] + b)) ** 2); const sy_x = n > 2 ? Math.sqrt(sres / (n - 2)) : 0;
+  return { k, b, r2, n, sy_x, pts };
+}
+function renderFia() {
+  const tb = $('fiaTable').tBodies[0]; tb.innerHTML = '';
+  const F = fit(); const show = $('showConc').checked;
+  document.querySelectorAll('#fiaTable .conc').forEach(e => e.hidden = !show);
+  S.fia.slice().reverse().forEach(f => {
+    const tr = document.createElement('tr');
+    const conc = F ? ((f.A - F.b) / F.k * f.dil) : null;
+    tr.innerHTML = `<td class="num">${f.n}</td><td>${f.vial.name}${f.vial.kind !== 'std' ? ` <span class="small muted mono">${fmtT(f.vial.t)}</span>` : ''}</td><td class="num">×${f.dil}</td><td class="num">${f.A.toFixed(4).replace('.', ',')}</td>` +
+      `<td>${f.vial.kind === 'std' ? `<input type="checkbox" ${f.use ? 'checked' : ''} data-n="${f.n}" aria-label="Använd i kalibrering">` : ''}</td>` +
+      `<td class="num conc" ${show ? '' : 'hidden'}>${conc == null ? '–' : dec(conc, 3)}</td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', () => { S.fia.find(f => f.n === +cb.dataset.n).use = cb.checked; renderFia(); }));
+  $('fitTxt').textContent = F ? `A = ${F.k.toFixed(4).replace('.', ',')} · c + ${F.b.toFixed(4).replace('.', ',')}    R² = ${F.r2.toFixed(4).replace('.', ',')}    s(y/x) = ${F.sy_x.toFixed(4).replace('.', ',')}    n = ${F.n}` : 'Injicera minst två olika standarder för att få en kurva.';
+  drawCal();
+}
+let calPts = [];
+function drawCal() {
+  const cv = $('cCal'); const { ctx, w, h } = setupCanvas(cv);
+  const L = 64, R = w - 14, T = 14, B = h - 40; ctx.clearRect(0, 0, w, h);
+  const F = fit();
+  const allStd = S.fia.filter(f => f.vial.kind === 'std');
+  const xmax = Math.max(5.5, ...allStd.map(f => f.vial.nominal / f.dil * 1.1));
+  const ymax = Math.max(0.35, ...allStd.map(f => f.A * 1.1));
+  const nice = (m) => { const s = [0.05, 0.1, 0.2, 0.5, 1, 2]; return s.find(x => m / x <= 7) || 5; };
+  const xs = nice(xmax), ys = nice(ymax);
+  const X = v => L + v / xmax * (R - L), Y = v => B - v / ymax * (B - T);
+  ctx.lineWidth = 1; ctx.strokeStyle = C.line; ctx.fillStyle = C['fg-2']; ctx.font = '11px ' + FM;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let v = 0; v <= ymax + 1e-9; v += ys) { ctx.globalAlpha = .6; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(R, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(v.toFixed(ys < 0.1 ? 2 : 1), L - 6, Y(v)); }
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let v = 0; v <= xmax + 1e-9; v += xs) ctx.fillText(v.toFixed(xs < 1 ? 1 : 0), X(v), B + 6);
+  ctx.fillText('c (mg/L P)', (L + R) / 2, B + 22);
+  ctx.save(); ctx.translate(12, (T + B) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('Topphöjd, A (880 nm)', 0, 0); ctx.restore();
+  ctx.strokeStyle = C['fg-3']; ctx.beginPath(); ctx.moveTo(L, T); ctx.lineTo(L, B); ctx.lineTo(R, B); ctx.stroke();
+  if (F) { ctx.strokeStyle = C['pen-pv']; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(0), Y(F.b)); const xe = Math.min(xmax, (ymax - F.b) / F.k); ctx.lineTo(X(xe), Y(F.k * xe + F.b)); ctx.stroke(); }
+  calPts = [];
+  allStd.forEach(f => { const x = X(f.vial.nominal / f.dil), y = Y(f.A); calPts.push({ x, y, f });
+    ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.lineWidth = 2; ctx.strokeStyle = C.surface;
+    if (f.use) { ctx.fillStyle = C['pen-std']; ctx.fill(); ctx.stroke(); } else { ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C['fg-3']; ctx.stroke(); } });
+  // prover som horisontella markeringar på y-axeln
+  S.fia.filter(f => f.vial.kind !== 'std').forEach(f => { const y = Y(Math.min(ymax, f.A)); ctx.strokeStyle = f.vial.kind === 'in' ? C['pen-u'] : C['pen-pv']; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(L + 1, y); ctx.lineTo(L + 14, y); ctx.stroke(); });
+}
+function calHover(ev) {
+  const rect = ev.currentTarget.getBoundingClientRect(); const x = ev.clientX - rect.left, y = ev.clientY - rect.top;
+  let best = null, bd = 14; calPts.forEach(p => { const d = Math.hypot(p.x - x, p.y - y); if (d < bd) { bd = d; best = p; } });
+  const tip = $('calTip'); if (!best) { tip.hidden = true; return; }
+  tip.innerHTML = `<div>#${best.f.n} ${best.f.vial.name}${best.f.dil > 1 ? ' ×' + best.f.dil : ''}</div><div class="mono">A = ${best.f.A.toFixed(4).replace('.', ',')}</div>${best.f.use ? '' : '<div class="muted">ingår inte i anpassningen</div>'}`;
+  tip.hidden = false; tip.style.left = Math.min(best.x + 12, rect.width - 190) + 'px'; tip.style.top = (best.y + 10) + 'px';
+}
+
+// ---------- teorigrafer ----------
+function drawSol() {
+  const cv = $('cSol'); const { ctx, w, h } = setupCanvas(cv);
+  const L = 50, R = w - 12, T = 12, B = h - 38; ctx.clearRect(0, 0, w, h);
+  const xmin = 3, xmax = 11, ymin = -9, ymax = -1;
+  const X = v => L + (v - xmin) / (xmax - xmin) * (R - L), Y = v => B - (v - ymin) / (ymax - ymin) * (B - T);
+  ctx.font = '11px ' + FM; ctx.fillStyle = C['fg-2']; ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let v = ymin; v <= ymax; v++) { ctx.globalAlpha = .6; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(R, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(String(v).replace('-', '−'), L - 6, Y(v)); }
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let v = xmin; v <= xmax; v++) ctx.fillText(v, X(v), B + 6);
+  ctx.fillText('pH', (L + R) / 2, B + 22);
+  ctx.save(); ctx.translate(12, (T + B) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('log c (mol/L)', 0, 0); ctx.restore();
+  // band pH 6–8
+  ctx.fillStyle = C.accent; ctx.globalAlpha = .08; ctx.fillRect(X(6), T, X(8) - X(6), B - T); ctx.globalAlpha = 1;
+  const K = W.K; const big = 1;
+  const curves = [
+    { f: h => { const s = W.alSpecies(h, big); return s.diss; }, c: C['pen-pv'], d: [] },
+    { f: h => W.alSpecies(h, big).al3, c: C['pen-u'], d: [6, 4] },
+    { f: h => W.alSpecies(h, big).a4, c: C['pen-std'], d: [2, 3] },
+  ];
+  ctx.save(); ctx.beginPath(); ctx.rect(L, T, R - L, B - T); ctx.clip();
+  curves.forEach(cu => { ctx.strokeStyle = cu.c; ctx.lineWidth = 2; ctx.setLineDash(cu.d); ctx.beginPath(); for (let i = 0; i <= 200; i++) { const pH = xmin + i / 200 * (xmax - xmin); const y = Math.log10(cu.f(10 ** -pH)); i ? ctx.lineTo(X(pH), Y(y)) : ctx.moveTo(X(pH), Y(y)); } ctx.stroke(); });
+  ctx.setLineDash([]);
+  // dosering
+  const alT = Math.log10(S.plant.feed.c[6] * 1e-3);
+  ctx.strokeStyle = C['fg-3']; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(L, Y(alT)); ctx.lineTo(R, Y(alT)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = C['fg-2']; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom'; ctx.fillText('tillsatt Al i verket', R - 4, Y(alT) - 3);
+  if (solHover != null) { ctx.strokeStyle = C.fg; ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(X(solHover), T); ctx.lineTo(X(solHover), B); ctx.stroke(); ctx.globalAlpha = 1; }
+  ctx.restore();
+  drawSol.geom = { L, R, xmin, xmax };
+}
+let solHover = null;
+function solMove(ev) {
+  const g = drawSol.geom; const rect = ev.currentTarget.getBoundingClientRect(); const x = ev.clientX - rect.left;
+  if (x < g.L || x > g.R) { solHover = null; $('solTip').hidden = true; drawSol(); return; }
+  const pH = g.xmin + (x - g.L) / (g.R - g.L) * (g.xmax - g.xmin); solHover = pH; drawSol();
+  const s = W.alSpecies(10 ** -pH, 1);
+  const tip = $('solTip'); tip.hidden = false; tip.innerHTML = `<div class="mono">pH ${dec(pH, 2)}</div><div>Löst Al: <b class="mono">${(s.diss * 26.98e6).toPrecision(2)} µg/L</b></div>`;
+  tip.style.left = Math.min(x + 12, rect.width - 170) + 'px'; tip.style.top = '20px';
+}
+let titHover = null;
+function titCurve() { const f = W.feedOf(S.plant.p); const pts = []; for (let u = 0; u <= 100; u += 0.5) { const c = f.c.slice(); c[0] += u / 100 * S.plant.p.naohMax / 1000 * S.plant.p.naohConc * 1000 / f.Qt; pts.push([u, W.solvePH(c)]); } return pts; }
+function drawTit() {
+  const cv = $('cTit'); const { ctx, w, h } = setupCanvas(cv);
+  const L = 46, R = w - 12, T = 12, B = h - 38; ctx.clearRect(0, 0, w, h);
+  const X = v => L + v / 100 * (R - L), Y = v => B - (v - 2) / 10 * (B - T);
+  ctx.font = '11px ' + FM; ctx.fillStyle = C['fg-2']; ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let v = 2; v <= 12; v += 2) { ctx.globalAlpha = .6; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(R, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(v, L - 6, Y(v)); }
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let v = 0; v <= 100; v += 20) ctx.fillText(v + ' %', X(v), B + 6);
+  ctx.fillText('konstant utsignal till NaOH-pumpen', (L + R) / 2, B + 22);
+  ctx.save(); ctx.translate(12, (T + B) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('pH i bassäng C', 0, 0); ctx.restore();
+  ctx.strokeStyle = C['pen-sp']; ctx.setLineDash([6, 4]); ctx.beginPath(); ctx.moveTo(L, Y(S.sp)); ctx.lineTo(R, Y(S.sp)); ctx.stroke(); ctx.setLineDash([]);
+  const pts = titCurve(); drawTit.pts = pts;
+  ctx.strokeStyle = C['pen-pv']; ctx.lineWidth = 2; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1]))); ctx.stroke();
+  // nuvarande driftpunkt
+  const u = S.pid.u || 0; ctx.fillStyle = C['pen-u']; ctx.strokeStyle = C.surface; ctx.lineWidth = 2; const pu = pts[Math.round(u / 0.5)]; if (pu) { ctx.beginPath(); ctx.arc(X(pu[0]), Y(pu[1]), 5, 0, 7); ctx.fill(); ctx.stroke(); }
+  if (titHover != null) { ctx.strokeStyle = C.fg; ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(X(titHover), T); ctx.lineTo(X(titHover), B); ctx.stroke(); ctx.globalAlpha = 1; }
+  drawTit.geom = { L, R };
+}
+function titMove(ev) {
+  const g = drawTit.geom; const rect = ev.currentTarget.getBoundingClientRect(); const x = ev.clientX - rect.left;
+  if (x < g.L || x > g.R) { titHover = null; $('titTip').hidden = true; drawTit(); return; }
+  const u = Math.max(0, Math.min(100, (x - g.L) / (g.R - g.L) * 100)); titHover = Math.round(u * 2) / 2; drawTit();
+  const pts = drawTit.pts; const i = Math.round(titHover / 0.5); const p = pts[i];
+  const a = pts[Math.max(0, i - 2)], b = pts[Math.min(pts.length - 1, i + 2)]; const slope = (b[1] - a[1]) / (b[0] - a[0]);
+  const tip = $('titTip'); tip.hidden = false; tip.innerHTML = `<div class="mono">${dec(p[0], 1)} % → pH ${dec(p[1], 2)}</div><div>Förstärkning ≈ <b class="mono">${dec(slope, 2)}</b> pH per %</div>`;
+  tip.style.left = Math.min(x + 12, rect.width - 200) + 'px'; tip.style.top = '20px';
+}
+
+function updatePlay() {
+  const b = $('playBtn'), c = $('runChip');
+  b.textContent = S.running ? '❚❚ Pausa' : S.started ? '▶ Fortsätt' : '▶ Starta simuleringen';
+  b.setAttribute('aria-pressed', S.running);
+  c.textContent = S.running ? '● Pågår' : S.started ? '❚❚ Pausad' : '■ Stoppad';
+  c.className = 'chip' + (S.running ? ' on' : S.started ? ' paused' : '');
+  $('startNote').hidden = S.started;
+}
+// ---------- rendering ----------
+let lastSlow = 0, curTab = 'verk';
+function render() {
+  const pl = S.plant;
+  $('clock').textContent = fmtT(S.t);
+  if (curTab === 'verk') {
+    drawRecorder();
+  }
+  const now = performance.now();
+  if (now - lastSlow > 250) {
+    lastSlow = now;
+    const ph = S.pvDisp ?? pl.el;
+    $('dPV').textContent = ph.toFixed(2);
+    $('dU').textContent = (S.uDisp ?? 0).toFixed(1);
+    $('kpiPH').textContent = dec(ph, 2);
+    const dev = Math.abs(ph - S.sp);
+    // hysteres så att etiketten inte hoppar fram och tillbaka vid gränserna
+    const lvl = S.chipLvl ?? 2; let nl = lvl;
+    if (lvl === 0 && dev > 0.25) nl = dev > 0.7 ? 2 : 1;
+    else if (lvl === 1) nl = dev < 0.15 ? 0 : dev > 0.75 ? 2 : 1;
+    else if (lvl === 2 && dev < 0.65) nl = dev < 0.15 ? 0 : 1;
+    if (nl !== S.chipLvl) { S.chipLvl = nl; $('kpiPHchip').innerHTML = ['<span class="chip good">✓ nära BÖR</span>', '<span class="chip warn">▲ avviker</span>', '<span class="chip crit">✕ långt från BÖR</span>'][nl]; }
+    $('kpiNaOH').textContent = dec((S.uDisp ?? 0) / 100 * pl.p.naohMax, 2);
+    $('kpiAl').textContent = pl.alDiss != null ? (pl.alDiss < 10 ? dec(pl.alDiss, 1) : Math.round(pl.alDiss)) : '–';
+    svgRefs.elTxt.textContent = 'pH ' + dec(ph, 2);
+    svgRefs.naohTxt.textContent = dec(S.uDisp ?? 0, 0) + ' %';
+    svgRefs.alTxt.textContent = pl.p.alRate + ' ml/min';
+    svgRefs.polyTxt.textContent = pl.p.polyRate + ' ml/min';
+    svgRefs.wC.style.fill = pHtint(pl.pH2);
+    svgRefs.wB.style.fill = pHtint(solveB());
+    svgRefs.flocks.setAttribute('opacity', Math.max(0.1, pl.removal ? pl.removal.chem : 0.5));
+    const sinceH = S.lastHCl != null ? S.t - S.lastHCl : 1e9; svgRefs.hcl.setAttribute('opacity', sinceH < 60 ? 1 - sinceH / 60 : 0);
+    if (curTab === 'verk' && $('showAuto').checked) updateAuto();
+    if (curTab === 'teori') { drawTit(); }
+  }
+  if (curTab === 'fia') drawFia();
+}
+let bCache = { key: '', v: 4 };
+function solveB() { const key = S.plant.p.alRate + '|' + S.plant.p.alkFactor; if (bCache.key !== key) bCache = { key, v: W.solvePH(S.plant.cB) }; return bCache.v; }
+
+// ---------- flikar ----------
+const TABS = ['verk', 'fia', 'teori', 'redov', 'modell'];
+function showTab(id) {
+  if (!TABS.includes(id)) id = 'verk'; curTab = id;
+  TABS.forEach(t => { $(t).hidden = t !== id; $('tab-' + t).setAttribute('aria-selected', t === id); });
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  if (id === 'teori') { drawSol(); drawTit(); }
+  if (id === 'fia') { renderFia(); }
+  if (id === 'verk') renderLog();
+}
+
+// ---------- init ----------
+function init(restoring) {
+  S = newState(); S.restoring = restoring;
+  // inställning 1 som start
+  $('pP').value = 15; $('pI').value = 0; $('pD').value = 0; $('pARW').value = 0; $('pSP').value = 7.0; $('pBias').value = 0;
+  ['alRate', 'polyRate'].forEach(k => $(k).value = S.plant.p[k]); $('alk').value = 100; $('noise').value = 0.015; $('drift').value = 0; $('preset').value = '0';
+  applySettings(true);
+  S.restoring = false;
+  defaultRack(); renderRack(); renderFia();
+  buildSchema(); setMode('auto'); S.events = S.events.filter(e => e.label !== 'AUTO');
+  $('bufRes').textContent = '';
+  recKey = ''; updatePlay();
+}
+function bindUI() {
+  const pre = $('preset');
+  pre.innerHTML = PRESETS.map((p, i) => `<option value="${i}">${i + 1}. ${p[4]}: P ${p[0]}, I ${p[1]}, D ${p[2]}, ARW ${p[3]}</option>`).join('') + '<option value="own">Egen inställning</option>';
+  pre.addEventListener('change', () => { const p = PRESETS[+pre.value]; if (!p) return; $('pP').value = p[0]; $('pI').value = p[1]; $('pD').value = p[2]; $('pARW').value = p[3]; });
+  ['pP', 'pI', 'pD', 'pARW'].forEach(k => $(k).addEventListener('input', () => { const v = [+$('pP').value, +$('pI').value, +$('pD').value, +$('pARW').value]; const i = PRESETS.findIndex(p => p[0] === v[0] && p[1] === v[1] && p[2] === v[2] && p[3] === v[3]); pre.value = i >= 0 ? String(i) : 'own'; }));
+  $('applyBtn').addEventListener('click', () => applySettings(false));
+  $('modeAuto').addEventListener('click', () => S.mode !== 'auto' && setMode('auto'));
+  $('modeMan').addEventListener('click', () => S.mode !== 'man' && setMode('man'));
+  $('manU').addEventListener('input', () => { S.manU = +$('manU').value; $('manUv').textContent = S.manU; });
+  $('startNoteBtn').addEventListener('click', () => { S.running = true; S.started = true; updatePlay(); });
+  $('playBtn').addEventListener('click', () => { S.running = !S.running; if (S.running) S.started = true; updatePlay(); });
+  document.querySelectorAll('#speedSeg button').forEach(b => b.addEventListener('click', () => {
+    S.speed = +b.dataset.s; document.querySelectorAll('#speedSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    $('speedNote').textContent = S.speed === 1 ? 'realtid' : `30 min processtid ≈ ${dec(30 / S.speed, S.speed >= 60 ? 1 : 0)} min`;
+  }));
+  document.querySelectorAll('#winSeg button').forEach(b => b.addEventListener('click', () => { winMin = +b.dataset.w; document.querySelectorAll('#winSeg button').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
+  $('followBtn').addEventListener('click', () => { follow = !follow; $('followBtn').setAttribute('aria-pressed', follow); $('followBtn').textContent = follow ? 'Följer nu' : 'Följ nu'; });
+  $('scroll').addEventListener('input', () => { follow = false; $('followBtn').setAttribute('aria-pressed', false); $('followBtn').textContent = 'Följ nu'; viewEnd = +$('scroll').value + winMin * 60; });
+  ['cPH', 'cU'].forEach(id => { $(id).addEventListener('mousemove', recHover); $(id).addEventListener('mouseleave', recLeave); });
+  $('resetBtn').addEventListener('click', () => { $('resetConfirm').hidden = false; });
+  $('resetNo').addEventListener('click', () => { $('resetConfirm').hidden = true; });
+  $('resetYes').addEventListener('click', () => { $('resetConfirm').hidden = true; init(false); toast('Verket har startats om.'); });
+  $('hclBtn').addEventListener('click', () => { S.plant.addHCl(); S.lastHCl = S.t; S.events.push({ t: S.t, type: 'hcl', label: 'HCl' }); toast(`10 ml HCl tillsatt vid ${fmtT(S.t)}.`); });
+  const plantParam = (id, key, f) => $(id).addEventListener('change', () => { const v = +$(id).value; if (!isFinite(v)) return; S.plant.p[key] = f ? f(v) : v; S.plant.updateFeed(); bCache.key = ''; S.events.push({ t: S.t, type: 'set', label: { alRate: 'Al ' + v + ' ml/min', polyRate: 'Polymer ' + v + ' ml/min', alkFactor: 'Alk. ' + v + ' %' }[key] || '' }); if (curTab === 'teori') { drawSol(); drawTit(); } });
+  plantParam('alRate', 'alRate'); plantParam('polyRate', 'polyRate'); plantParam('alk', 'alkFactor', v => v / 100);
+  $('noise').addEventListener('change', () => S.plant.p.noise = Math.max(0, +$('noise').value || 0));
+  $('drift').addEventListener('change', () => S.plant.p.drift = +$('drift').value || 0);
+  $('bufBtn').addEventListener('click', () => { const r = 7 + S.plant.driftOff + 0.01 * gauss(); $('bufRes').textContent = `Elektroden visar ${dec(r, 2)} i pH 7,00-buffert`; });
+  $('showAuto').addEventListener('change', updateAuto);
+  $('copyLog').addEventListener('click', () => copyText(logText()));
+  $('copyData').addEventListener('click', () => copyText(dataText()));
+  // FIA
+  $('sampIn').addEventListener('click', () => takeSample('in'));
+  $('sampOut').addEventListener('click', () => takeSample('out'));
+  $('injBtn').addEventListener('click', inject);
+  $('mkStd').addEventListener('click', mkStd);
+  ['stdVol', 'stdSrc', 'stdFlask'].forEach(k => $(k).addEventListener('input', updStdPreview)); updStdPreview();
+  $('showConc').addEventListener('change', renderFia);
+  $('copyFia').addEventListener('click', () => { const F = fit(); copyText(['#\tProv\tTid\tSpädning\tTopp_A880\tKalibrering'].concat(S.fia.map(f => [f.n, f.vial.name, f.vial.t != null ? fmtT(f.vial.t) : '', f.dil, f.A.toFixed(4), f.vial.kind === 'std' ? (f.use ? 'ja' : 'nej') : ''].join('\t'))).join('\n')); });
+  $('cCal').addEventListener('mousemove', calHover); $('cCal').addEventListener('mouseleave', () => $('calTip').hidden = true);
+  $('cSol').addEventListener('mousemove', solMove); $('cSol').addEventListener('mouseleave', () => { solHover = null; $('solTip').hidden = true; drawSol(); });
+  $('cTit').addEventListener('mousemove', titMove); $('cTit').addEventListener('mouseleave', () => { titHover = null; $('titTip').hidden = true; drawTit(); });
+  TABS.forEach(t => $('tab-' + t).addEventListener('click', () => showTab(t)));
+  const retheme = () => { readColors(); if (curTab === 'teori') { drawSol(); drawTit(); } if (curTab === 'fia') drawCal(); };
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', retheme); } catch (e) {}
+  new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.addEventListener('resize', () => { if (curTab === 'teori') { drawSol(); drawTit(); } if (curTab === 'fia') drawCal(); });
+}
+
+readColors(); bindUI(); init(true);
+showTab((location.hash || '#verk').slice(1));
+requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>
